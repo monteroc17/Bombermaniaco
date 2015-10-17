@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Funcionalidades;
+package Funcionalities;
 
 import java.util.Random;
 
@@ -20,9 +20,9 @@ public class BomberManiac {
         // TODO code application logic here
     }
     
-    public static int numeroRandom(int range){//genera un numero random con el rango especificado como parametro
+    public static int numeroRandom(int rango){//generate a num random with the range especify like parameter
         Random random=new Random();
-        return random.nextInt(range);
+        return random.nextInt(rango);
     }
     
 }

@@ -3,36 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objets;
 
-import static Funcionalidades.Globales.instance;
+import static Funcionalities.Globals.instance;
 
 /**
  *
  * @author Daniel-PC
  */
-public class Globo extends Element{
+public class Globe extends Element{
 
-    public Globo(int posicionX, int posicionY) {
-        super(posicionX, posicionY);
+    public Globe(int positionX, int positionY) {
+        super(positionX, positionY);
     }
     
     @Override
-    public void moverse(){
+    public void move(){
         //CODIGO PARA MOVERSE
     }
     
     @Override
-    public boolean esPisable(){
+    public boolean itsPisable(){
         return true;
     }
     
     @Override
-    public boolean esIndestructible(){
+    public boolean itsIndestructible(){
         return false;
     }
     
-    public void morir(){
+    public void die(){
         
     }
 }

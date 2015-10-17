@@ -3,34 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objets;
 
 /**
  *
  * @author Daniel-PC
  */
-public class Bomba extends Element{
+public class BarrierBlock extends Element{
 
-    public Bomba(int posicionX, int posicionY) {
-        super(posicionX, posicionY);
+    public BarrierBlock(int positionX, int positionY) {
+        super(positionX, positionY);
     }
     
     @Override
-    public void moverse(){
+    public void move(){
         
     }
     
     @Override
-    public boolean esPisable(){
-        return true;
+    public boolean itsPisable(){
+        return false;
     }
     
     @Override
-    public boolean esIndestructible(){
+    public boolean itsIndestructible(){
         return true;
-    }
-    
-    public void estallar(){
-        
     }
 }

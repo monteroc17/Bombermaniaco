@@ -3,30 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objets;
 
 /**
  *
  * @author Daniel-PC
  */
-public class Bloque extends Element{
+public class EmptySpace extends Element{
 
-    public Bloque(int posicionX, int posicionY) {
-        super(posicionX, posicionY);
+    public EmptySpace(int positionX, int positionY) {
+        super(positionX, positionY);
     }
     
     @Override
-    public void moverse(){
+    public void move(){
         
     }
     
     @Override
-    public boolean esPisable(){
-        return false;
+    public boolean itsPisable(){
+        return true;
     }
     
     @Override
-    public boolean esIndestructible(){
+    public boolean itsIndestructible(){
         return false;
     }
 }

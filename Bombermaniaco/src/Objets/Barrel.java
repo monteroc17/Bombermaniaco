@@ -3,30 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objets;
 
 /**
  *
  * @author Daniel-PC
  */
-public class EspacioVacio extends Element{
+public class Barrel extends Element{
 
-    public EspacioVacio(int posicionX, int posicionY) {
-        super(posicionX, posicionY);
+    public Barrel(int positionX, int positionY) {
+        super(positionX, positionY);
+    }
+    @Override
+    public void move(){
+        //CODIGO PARA MOVERSE
     }
     
     @Override
-    public void moverse(){
-        
-    }
-    
-    @Override
-    public boolean esPisable(){
+    public boolean itsPisable(){
         return true;
     }
     
     @Override
-    public boolean esIndestructible(){
+    public boolean itsIndestructible(){
         return false;
+    }
+    
+    public void die(){
+        
     }
 }
