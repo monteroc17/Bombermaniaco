@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Funcionalidades;
+package Funcionalities;
 
 import java.util.Random;
 
@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * @author Daniel-PC
  */
-public class Bombermaniaco {
+public class BomberManiac {
 
     /**
      * @param args the command line arguments
@@ -20,7 +20,7 @@ public class Bombermaniaco {
         // TODO code application logic here
     }
     
-    public static int numeroRandom(int rango){//genera un numero random con el rango especificado como parametro
+    public static int numeroRandom(int rango){//generate a num random with the range especify like parameter
         Random random=new Random();
         return random.nextInt(rango);
     }

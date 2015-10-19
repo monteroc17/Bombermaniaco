@@ -3,33 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objets;
 
 /**
  *
  * @author Daniel-PC
  */
-public class Barril extends Element{
+public class Hero extends Element{
 
-    public Barril(int posicionX, int posicionY) {
-        super(posicionX, posicionY);
+    public Hero(int positionX, int positionY) {
+        super(positionX, positionY);
     }
+    
     @Override
-    public void moverse(){
+    public void move(){
         //CODIGO PARA MOVERSE
     }
     
     @Override
-    public boolean esPisable(){
+    public boolean itsPisable(){
         return true;
     }
     
     @Override
-    public boolean esIndestructible(){
+    public boolean itsIndestructible(){
         return false;
     }
     
-    public void morir(){
+    public void die(){
+        
+    }
+    
+    public void placeBomb(Bomb bomb){
+        
+    }
+    
+    @Override
+    public void run(){
         
     }
 }
