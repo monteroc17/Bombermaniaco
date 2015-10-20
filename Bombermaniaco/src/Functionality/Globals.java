@@ -12,7 +12,7 @@ import Objects.Block;
 import Objects.Element;
 import Objects.EmptySpace;
 import Objects.Hero;
-import java.util.Random;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -49,18 +49,13 @@ public class Globals {
         BarrierBlock barrier=new BarrierBlock(0,0);
         for(int line=0;line<instance.easyMatrix.length;line++){
             for(int column=0;column<instance.easyMatrix.length;column++){
-                easyMatrix[line][column]=new EmptySpace(0, 0);
+                instance.easyMatrix[line][column]=new EmptySpace(0, 0);
             }
         }
-        //for(int line=1;line<instance.easyMatrix.length;line+=2){//fills with barriers
-        //    for(int column=0;column<instance.easyMatrix.length;column+=2){
-        //        easyMatrix[line][column]=barrier;
-        //    }
-        //}
         
         for(int line=0;line<instance.easyMatrix.length;line+=2){//fills with barriers
             for(int column=1;column<instance.easyMatrix.length;column+=2){
-                easyMatrix[line][column]=barrier;
+                instance.easyMatrix[line][column]=barrier;
             }
         }
        
@@ -71,7 +66,7 @@ public class Globals {
            if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                Block newBlock=new Block(0, 0);
                newBlock.setHasDoor(true);
-               instance.easyMatrix[line][column]=newBlock;
+               instance.easyMatrix[line][column]=new Block(0,0);
                i++;
            }
        }
@@ -84,7 +79,7 @@ public class Globals {
            if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                Block newBlock=new Block(0, 0);
                newBlock.setHasPower(true);
-               instance.easyMatrix[line][column]=newBlock;
+               instance.easyMatrix[line][column]=new Block(0,0);
                i++;
            }
        }
@@ -101,7 +96,7 @@ public class Globals {
            int line=Bombermaniac.randomNumber(20);
            int column=Bombermaniac.randomNumber(20);
            if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Hero(line, column);
+               instance.easyMatrix[line][column]=new Hero(column, line);
                i++;
            }
        }
@@ -111,7 +106,7 @@ public class Globals {
            int line=Bombermaniac.randomNumber(20);
            int column=Bombermaniac.randomNumber(20);
            if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Balloon(line, column);
+               instance.easyMatrix[line][column]=new Balloon(column, line);
                i++;
            }
        }
@@ -120,7 +115,7 @@ public class Globals {
            int line=Bombermaniac.randomNumber(20);
            int column=Bombermaniac.randomNumber(20);
            if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Barrell(line, column);
+               instance.easyMatrix[line][column]=new Barrell(column, line);
                i++;
            }
        }
@@ -130,45 +125,45 @@ public class Globals {
         BarrierBlock barrier=new BarrierBlock(0,0);
         for(int line=0;line<instance.mediumMatrix.length;line++){//se llena de espacios vacios
             for(int column=0;column<instance.mediumMatrix.length;column++){
-                mediumMatrix[line][column]=new EmptySpace(0, 0);
+                instance.mediumMatrix[line][column]=new EmptySpace(0, 0);
             }
         }
         
         for(int line=0;line<instance.mediumMatrix.length;line+=2){//fills with barriers
             for(int column=1;column<instance.mediumMatrix.length;column+=2){
-                mediumMatrix[line][column]=barrier;
+                instance.mediumMatrix[line][column]=barrier;
             }
         }
         
         int i=0;
        while(i<1){//inserts the block containig the door
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(40);
+           int column=Bombermaniac.randomNumber(40);
            if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                Block newBlock=new Block(0, 0);
                newBlock.setHasDoor(true);
-               instance.mediumMatrix[line][column]=newBlock;
+               instance.mediumMatrix[line][column]=new Block(0,0);
                i++;
            }
        }
 
        i=0;
        while(i<3){//fills the map with 3 blocks with powers
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(40);
+           int column=Bombermaniac.randomNumber(40);
            
            if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                Block newBlock=new Block(0, 0);
                newBlock.setHasPower(true);
-               instance.mediumMatrix[line][column]=newBlock;
+               instance.mediumMatrix[line][column]=new Block(0,0);
                i++;
            }
        }
 
        i=0;
        while(i<196){
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(40);
+           int column=Bombermaniac.randomNumber(40);
            if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                instance.mediumMatrix[line][column]=new Block(0, 0);
                i++;
@@ -177,30 +172,32 @@ public class Globals {
 
        i=0;
        while(i<1){//places the hero
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(40);
+           int column=Bombermaniac.randomNumber(40);
            if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Hero(line, column);
+               instance.mediumMatrix[line][column]=new Hero(column, line);
+               instance.heroPositionX=line;
+               instance.heroPositionY=column;
                i++;
            }
        }
 
        i=0;
        while(i<10){//10 randomly placed balloons
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(40);
+           int column=Bombermaniac.randomNumber(40);
            if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Balloon(line, column);
+               instance.mediumMatrix[line][column]=new Balloon(column, line);
                i++;
            }
        }
 
        i=0;
        while(i<8){//8 randomly placed barrels
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(40);
+           int column=Bombermaniac.randomNumber(40);
            if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Barrell(line, column);
+               instance.mediumMatrix[line][column]=new Barrell(column, line);
                i++;
            }
        }
@@ -215,78 +212,80 @@ public class Globals {
         BarrierBlock barrier=new BarrierBlock(0,0);
         for(int line=0;line<instance.hardMatrix.length;line++){
             for(int column=0;column<instance.hardMatrix.length;column++){
-                easyMatrix[line][column]=new EmptySpace(0, 0);
+                instance.hardMatrix[line][column]=new EmptySpace(0, 0);
             }
         }
-       //for(int line=1;line<instance.hardMatrix.length;line+=2){//fills with barriers
-       //     for(int column=0;column<instance.hardMatrix.length;column+=2){
-       //         hardMatrix[line][column]=barrier;
-       //     }
-       //}
+
         
         for(int line=0;line<instance.hardMatrix.length;line+=2){//fills with barriers
             for(int column=1;column<instance.hardMatrix.length;column+=2){
-                hardMatrix[line][column]=barrier;
+                instance.hardMatrix[line][column]=barrier;
             }
         }
-        
+
         int i=0;
        while(i<1){
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(60);
+           int column=Bombermaniac.randomNumber(60);
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                Block newBlock=new Block(0, 0);
                newBlock.setHasDoor(true);
-               instance.hardMatrix[line][column]=newBlock;
+               instance.hardMatrix[line][column]=new Block(0,0);
                i++;
            }
        }
-       
+
        i=0;
        while(i<2){//fills the map with 2 blocks with powers
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           
+           int line=Bombermaniac.randomNumber(60);
+           int column=Bombermaniac.randomNumber(60);
            
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                Block newBlock=new Block(0, 0);
                newBlock.setHasPower(true);
-               instance.hardMatrix[line][column]=newBlock;
+               instance.hardMatrix[line][column]=new Block(0,0);
                i++;
            }
        }
-       while(i<497){
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+
+       i=0;
+       while(i<497){//fills the rest of the blocks
+           int line=Bombermaniac.randomNumber(60);
+           int column=Bombermaniac.randomNumber(60);
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                instance.hardMatrix[line][column]=new Block(0, 0);
                i++;
            }
        }
        i=0;
+
        while(i<1){//places the hero
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(60);
+           int column=Bombermaniac.randomNumber(60);
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Hero(line, column);
+               instance.hardMatrix[line][column]=new Hero(column, line);
+               instance.heroPositionX=line;
+               instance.heroPositionY=column;
                i++;
            }
        }
+
        i=0;
        while(i<15){//15 randomly placed barrels
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(60);
+           int column=Bombermaniac.randomNumber(60);
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Balloon(line, column);
+               instance.hardMatrix[line][column]=new Balloon(column, line);
                i++;
            }
        }
+
        i=0;
        while(i<12){//12 randomly placed barrels
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
+           int line=Bombermaniac.randomNumber(60);
+           int column=Bombermaniac.randomNumber(60);
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Barrell(line, column);
+               instance.hardMatrix[line][column]=new Barrell(column, line);
                i++;
            }
        }
@@ -303,5 +302,17 @@ public class Globals {
 
     public int getHeroPositionY() {
         return heroPositionY;
+    }
+    
+    public String printMatrix(Element[][] matrix){
+        
+        String matrixString="";
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                matrixString+=matrix[row][col].getClass().getSimpleName()+"\t";
+            }
+            matrixString+="\n";
+        }
+        return matrixString;
     }
 }

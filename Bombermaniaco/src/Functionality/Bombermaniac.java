@@ -7,6 +7,7 @@ package Functionality;
 
 import static Functionality.Globals.instance;
 import GUI.ChooseDifficulty;
+import GUI.MainMenu;
 import java.util.Random;
 
 /**
@@ -22,9 +23,9 @@ public class Bombermaniac {
         Globals globals=Globals.getInstance();
         globals.fillEasyMatrix();
         globals.fillMediumMatrix();
-        globals.fillMediumMatrix();
+        globals.fillHardMatrix();
 
-        ChooseDifficulty newWindow=new ChooseDifficulty();
+        MainMenu newWindow=new MainMenu();
         newWindow.setVisible(true);
         newWindow.setEnabled(true);
 

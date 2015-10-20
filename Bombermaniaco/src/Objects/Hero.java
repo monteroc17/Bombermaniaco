@@ -5,6 +5,8 @@
  */
 package Objects;
 
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author Daniel-PC
@@ -15,8 +17,84 @@ public class Hero extends Element{
         super(positionX, positionY);
     }
     
-    public void move(){
-        //CODIGO PARA MOVERSE
+    public void move(Element[][] matrix,java.awt.event.KeyEvent event){
+        Element evaluedElement;
+        switch(event.getKeyCode()){
+            case KeyEvent.VK_UP:
+                evaluedElement=matrix[this.getPositionX()][this.getPositionY()+1];
+                if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
+                    return;
+                }
+                else{
+                    if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrel"))){
+                        this.die();
+                        return;
+                    }
+                    else{
+                        matrix[this.getPositionX()][this.getPositionY()+1]=this;
+                        matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                        this.setPosicion(this.getPositionX(), this.getPositionY()+1);
+                        return;
+                    }
+                }
+        
+            case KeyEvent.VK_DOWN:
+                evaluedElement=matrix[this.getPositionX()][this.getPositionY()-1];
+                if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
+                    return;
+                }
+                else{
+                    if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrel"))){
+                        this.die();
+                        return;
+                    }
+                    else{
+                        matrix[this.getPositionX()][this.getPositionY()-1]=this;
+                        matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                        this.setPosicion(this.getPositionX(), this.getPositionY()-1);
+                        return;
+                    }
+                }
+        
+            case KeyEvent.VK_LEFT:
+                evaluedElement=matrix[this.getPositionX()-1][this.getPositionY()];
+                if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
+                    return;
+                }
+                else{
+                    if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrel"))){
+                        this.die();
+                        return;
+                    }
+                    else{
+                        matrix[this.getPositionX()-1][this.getPositionY()]=this;
+                        matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                        this.setPosicion(this.getPositionX()-1, this.getPositionY());
+                        return;
+                    }
+                }
+        
+            case KeyEvent.VK_RIGHT:
+                evaluedElement=matrix[this.getPositionX()+1][this.getPositionY()];
+                if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
+                    return;
+                }
+                else{
+                    if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrel"))){
+                        this.die();
+                        return;
+                    }
+                    else{
+                        matrix[this.getPositionX()+1][this.getPositionY()]=this;
+                        matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                        this.setPosicion(this.getPositionX()+1, this.getPositionY());
+                        return;
+                    }
+                }
+            default:
+                System.out.println("Nada...");
+                
+        }
     }
     
     @Override
