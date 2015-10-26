@@ -6,6 +6,7 @@
 package GUI;
 
 import static Functionality.Globals.instance;
+import Functionality.MP3;
 
 /**
  *
@@ -13,11 +14,12 @@ import static Functionality.Globals.instance;
  */
 public class ChooseDifficulty extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ChooseDifficulty
-     */
+    MP3 mp3;
     public ChooseDifficulty() {
         initComponents();
+        
+        mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\difficulty.mp3");
+        mp3.play();
     }
 
     /**
@@ -36,6 +38,11 @@ public class ChooseDifficulty extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
@@ -120,35 +127,33 @@ public class ChooseDifficulty extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        mp3.close();
         this.dispose();
         GameEasy newEasyGame=new GameEasy();
         newEasyGame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        for (int row = 0; row < instance.getMediumMatrix().length; row++) {
-                for (int col = 0; col < instance.getMediumMatrix()[row].length; col++) {
-                    System.out.printf("%21s", instance.getMediumMatrix()[row][col].getClass().getSimpleName());
-                }
-            System.out.println();
-            }
+        mp3.close();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        for (int row = 0; row < instance.getHardMatrix().length; row++) {
-                for (int col = 0; col < instance.getHardMatrix()[row].length; col++) {
-                    System.out.printf("%21s", instance.getHardMatrix()[row][col].getClass().getSimpleName());
-                }
-            System.out.println();
-            }
+        mp3.close();
+        
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        mp3.close();
         MainMenu newMenu=new MainMenu();
         newMenu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        mp3.close();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

@@ -24,6 +24,7 @@ public class Globals {
     private Element[][] mediumMatrix;
     private Element[][] hardMatrix;
     public int heroPositionX,heroPositionY;
+    MP3 music;
 
     private Globals() {
     }
@@ -36,11 +37,20 @@ public class Globals {
             instance.easyMatrix=new Element[20][20];
             instance.mediumMatrix=new Element[40][40];
             instance.hardMatrix=new Element[60][60];
+            instance.music=null;
             
         }
         return instance;
     }
 
+    public void setMusic(MP3 music) {
+        this.music = music;
+    }
+
+    public MP3 getMusic() {
+        return music;
+    }
+    
     public Element[][] getEasyMatrix() {
         return instance.easyMatrix;
     }
@@ -91,19 +101,7 @@ public class Globals {
                i++;
            }
        }
-       /*
-       i=0;
-       while(i<1){//places the hero
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Hero(column, line);
-               instance.heroPositionX=line;
-               instance.heroPositionY=column;
-               i++;
-           }
-       }
-       */
+       
        i=0;
        while(i<6){//6 randomly placed barrels
            int line=Bombermaniac.randomNumber(20);

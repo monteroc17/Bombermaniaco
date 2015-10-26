@@ -5,56 +5,47 @@
  */
 package GUI;
 
+
 import Functionality.Bombermaniac;
 import static Functionality.Globals.instance;
+import Functionality.MP3;
 import Functionality.Music;
 import Functionality.Timer;
+import Objects.Balloon;
 import Objects.Hero;
 import java.awt.event.KeyEvent;
+import javax.xml.bind.JAXBElement;
 /**
  *
  * @author Daniel-PC
  */
 public class GameEasy extends javax.swing.JFrame {
-    private class TimeThread extends Thread{
-        
-        @Override
-        public void run(){
-            int cont=0;
-            while(true){
-                jLabel3.setText("Time: "+cont);
-                cont++;
-            }
-        }
-    }
+    
     
     Timer newTimer;
     Hero hero;
     Music music;
     Thread musicThread;
+    MP3 mp3;
     
     public GameEasy() {
         initComponents();
         //The thread for the main music in the game
-        music=new Music(this);
-        musicThread=new Thread(music);
-        musicThread.start();
-        if(!this.isEnabled()){
-            musicThread.interrupt();
-        }
+        //music=new Music(this);
+        //musicThread=new Thread(music);
+        //musicThread.start();
         
-        //newTimer=new Timer(jLabel3);
-        //newTimer.startTimer();
+        //creates an plays the music
         
-        /*
-        for (int row = 0; row < instance.getEasyMatrix().length; row++) {
-            for (int col = 0; col < instance.getEasyMatrix().length; col++) {
-                if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Hero")){
-                    hero=(Hero)instance.getEasyMatrix()[row][col];
-                }
-            }
-        }
-        */
+        mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\easy.mp3");
+        instance.setMusic(mp3);
+        instance.getMusic().play();
+        
+        
+        newTimer=new Timer(jLabel3);
+        newTimer.startTimer();
+        
+        
         jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
         
         
@@ -164,34 +155,15 @@ public class GameEasy extends javax.swing.JFrame {
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
         
-        switch(evt.getKeyCode()){
-            case KeyEvent.VK_UP:
-                hero.move(instance.getEasyMatrix(), evt);
-                jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
-                jLabel1.setText("X: "+hero.getPositionY());
-                jLabel2.setText("Y: "+hero.getPositionX());
-                break;
-            case KeyEvent.VK_DOWN:
-                hero.move(instance.getEasyMatrix(), evt);
-                jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
-                jLabel1.setText("X: "+hero.getPositionY());
-                jLabel2.setText("Y: "+hero.getPositionX());
-                break;
-            case KeyEvent.VK_LEFT:
-                hero.move(instance.getEasyMatrix(), evt);
-                jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
-                jLabel1.setText("X: "+hero.getPositionY());
-                jLabel2.setText("Y: "+hero.getPositionX());
-                break;
-            case KeyEvent.VK_RIGHT:
-                hero.move(instance.getEasyMatrix(), evt);
-                jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
-                jLabel1.setText("X: "+hero.getPositionY());
-                jLabel2.setText("Y: "+hero.getPositionX());
-                break;
-            default:
+        
+            hero.move(instance.getEasyMatrix(), evt);
+            jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
+            jLabel1.setText("X: "+hero.getPositionY());
+            jLabel2.setText("Y: "+hero.getPositionX());
+            
+            
                 
-        }
+        
     }//GEN-LAST:event_jButton1KeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -206,16 +178,37 @@ public class GameEasy extends javax.swing.JFrame {
                instance.getEasyMatrix()[line][column]=hero;
                instance.heroPositionX=line;
                instance.heroPositionY=column;
+               hero.start();
                placed=true;
                jLabel1.setText("X: "+hero.getPositionY());
                jLabel2.setText("Y: "+hero.getPositionX());
                jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
            }
         }
+        boolean finished=false;
+        while(!finished){
+            
+        for (int row = 0; row < instance.getEasyMatrix().length; row++) {
+            Balloon tempBalloon;
+            for (int col = 0; col < instance.getEasyMatrix().length; col++) {
+                if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
+                    tempBalloon=(Balloon)instance.getEasyMatrix()[row][col];
+                    tempBalloon.setHero(hero);
+                    tempBalloon.setMatrix(instance.getEasyMatrix());
+                    System.err.println(tempBalloon.getState().toString());
+                    if(tempBalloon.isAlive()){
+                        tempBalloon.interrupt();
+                    }
+                    tempBalloon.start();
+                }
+            }
+        }
+        finished=true;
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        musicThread.interrupt();
+        
     }//GEN-LAST:event_formWindowClosing
 
     /**

@@ -17,7 +17,7 @@ public abstract class Element extends Thread{
         this.positionY = positionY;
     }
 
-    public void setPosicion(int positionX, int positionY) {
+    public void setPosition(int positionX, int positionY) {
         this.positionX = positionX;
         this.positionY = positionY;
     }

@@ -5,6 +5,7 @@
  */
 package Objects;
 
+import static Functionality.Globals.instance;
 import GUI.GameEasy;
 import GUI.MainMenu;
 import java.awt.event.KeyEvent;
@@ -37,7 +38,7 @@ public class Hero extends Element{
                 if(!(this.getPositionX()<0)||(this.getPositionX()>19)||(this.getPositionY()<0)||(this.getPositionY()>19)){
                     evaluedElement=matrix[this.getPositionX()][this.getPositionY()+1];
                     if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
-                        return;
+                        break;
                     }
                     else{
                         if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
@@ -47,8 +48,8 @@ public class Hero extends Element{
                         else{
                             matrix[this.getPositionX()][this.getPositionY()+1]=this;
                             matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                            this.setPosicion(this.getPositionX(), this.getPositionY()+1);
-                            return;
+                            this.setPosition(this.getPositionX(), this.getPositionY()+1);
+                            break;
                         }
                     }
                 }
@@ -57,18 +58,18 @@ public class Hero extends Element{
                 if(!(this.getPositionX()<0)||(this.getPositionX()>19)||(this.getPositionY()<0)||(this.getPositionY()>19)){
                     evaluedElement=matrix[this.getPositionX()][this.getPositionY()-1];
                     if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
-                        return;
+                        break;
                     }
                     else{
                         if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
                             this.die();
-                            return;
+                            break;
                         }
                         else{
                             matrix[this.getPositionX()][this.getPositionY()-1]=this;
                             matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                            this.setPosicion(this.getPositionX(), this.getPositionY()-1);
-                            return;
+                            this.setPosition(this.getPositionX(), this.getPositionY()-1);
+                            break;
                         }
                     }
                 }
@@ -77,18 +78,18 @@ public class Hero extends Element{
                 evaluedElement=matrix[this.getPositionX()-1][this.getPositionY()];
                 if(!(this.getPositionX()<0)||(this.getPositionX()>19)||(this.getPositionY()<0)||(this.getPositionY()>19)){
                     if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
-                        return;
+                        break;
                     }
                     else{
                         if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
                             this.die();
-                            return;
+                            break;
                         }
                         else{
                             matrix[this.getPositionX()-1][this.getPositionY()]=this;
                             matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                            this.setPosicion(this.getPositionX()-1, this.getPositionY());
-                            return;
+                            this.setPosition(this.getPositionX()-1, this.getPositionY());
+                            break;
                         }
                     }
                 }
@@ -97,23 +98,23 @@ public class Hero extends Element{
                 if(!(this.getPositionX()<0)||(this.getPositionX()>19)||(this.getPositionY()<0)||(this.getPositionY()>19)){
                     evaluedElement=matrix[this.getPositionX()+1][this.getPositionY()];
                     if((evaluedElement.isIndestructible())||(!evaluedElement.canBeStomped())){
-                        return;
+                        break;
                     }
                     else{
                         if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
                             this.die();
-                            return;
+                            break;
                         }
                         else{
                             matrix[this.getPositionX()+1][this.getPositionY()]=this;
                             matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                            this.setPosicion(this.getPositionX()+1, this.getPositionY());
-                            return;
+                            this.setPosition(this.getPositionX()+1, this.getPositionY());
+                            break;
                         }
                     }
                 }
             default:
-                System.out.println("Nada...");
+                break;
                 
         }
         }catch(java.lang.ArrayIndexOutOfBoundsException e){
@@ -135,16 +136,33 @@ public class Hero extends Element{
         int retry=JOptionPane.showConfirmDialog(null,
                     "YOU DIED!\nRetry?",
                     "Confirmation Message",JOptionPane.YES_NO_OPTION);
+        instance.getMusic().close();
             if(retry==0){
-                
+                for (int row = 0; row < instance.getEasyMatrix().length; row++) {
+                    for (int col = 0; col < instance.getEasyMatrix().length; col++) {
+                        if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
+                            Balloon tempBalloon=(Balloon)instance.getEasyMatrix()[row][col];
+                            tempBalloon.interrupt();
+                        }
+                    }
+
+                }
                 GameEasy newGame=new GameEasy();
                 newGame.setEnabled(true);
                 newGame.setVisible(true);
                 this.frame.setEnabled(false);
                 this.frame.setVisible(false);
-
             }
             else{
+                for (int row = 0; row < instance.getEasyMatrix().length; row++) {
+                    for (int col = 0; col < instance.getEasyMatrix().length; col++) {
+                        if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
+                            Balloon tempBalloon=(Balloon)instance.getEasyMatrix()[row][col];
+                            tempBalloon.interrupt();
+                        }
+
+                    }
+                }
                 MainMenu menuWindow=new MainMenu();
                 menuWindow.setVisible(true);
                 this.frame.setEnabled(false);
@@ -159,6 +177,6 @@ public class Hero extends Element{
     
     @Override
     public void run(){
-        this.move(matrix, event);
+        System.out.println("Hero Started");
     }
 }
