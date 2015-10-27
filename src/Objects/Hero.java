@@ -20,15 +20,24 @@ public class Hero extends Element{
     JFrame frame;
     Element[][] matrix;
     java.awt.event.KeyEvent event;
+    private boolean isDead;
 
-    public Hero(int positionX, int positionY) {
-        super(positionX, positionY);
-    }
     
     public Hero(int positionX, int positionY,JFrame frame) {
         super(positionX, positionY);
         this.frame=frame;
+        this.isDead=false;
     }
+
+    public KeyEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(KeyEvent event) {
+        this.event = event;
+    }
+    
+    
     
     public void move(Element[][] matrix,java.awt.event.KeyEvent event){
         Element evaluedElement;
@@ -133,20 +142,14 @@ public class Hero extends Element{
     }
     
     public void die(){
+        this.isDead=true;
+        instance.getEasyMatrix()[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
         int retry=JOptionPane.showConfirmDialog(null,
                     "YOU DIED!\nRetry?",
                     "Confirmation Message",JOptionPane.YES_NO_OPTION);
         instance.getMusic().close();
             if(retry==0){
-                for (int row = 0; row < instance.getEasyMatrix().length; row++) {
-                    for (int col = 0; col < instance.getEasyMatrix().length; col++) {
-                        if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
-                            Balloon tempBalloon=(Balloon)instance.getEasyMatrix()[row][col];
-                            tempBalloon.interrupt();
-                        }
-                    }
-
-                }
+                
                 GameEasy newGame=new GameEasy();
                 newGame.setEnabled(true);
                 newGame.setVisible(true);
@@ -178,5 +181,13 @@ public class Hero extends Element{
     @Override
     public void run(){
         System.out.println("Hero Started");
+        try{
+        while(this.isDead==false){
+            this.move(matrix, this.getEvent());
+        }
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        this.interrupt();
     }
 }

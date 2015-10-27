@@ -12,6 +12,7 @@ import Functionality.MP3;
 import Functionality.Music;
 import Functionality.Timer;
 import Objects.Balloon;
+import Objects.Barrell;
 import Objects.Hero;
 import java.awt.event.KeyEvent;
 import javax.xml.bind.JAXBElement;
@@ -155,7 +156,7 @@ public class GameEasy extends javax.swing.JFrame {
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
         
-        
+            //hero.setEvent(evt);
             hero.move(instance.getEasyMatrix(), evt);
             jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
             jLabel1.setText("X: "+hero.getPositionY());
@@ -193,6 +194,7 @@ public class GameEasy extends javax.swing.JFrame {
             for (int col = 0; col < instance.getEasyMatrix().length; col++) {
                 if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
                     tempBalloon=(Balloon)instance.getEasyMatrix()[row][col];
+                    tempBalloon.setTextArea(jTextArea1);
                     tempBalloon.setHero(hero);
                     tempBalloon.setMatrix(instance.getEasyMatrix());
                     System.err.println(tempBalloon.getState().toString());
@@ -203,8 +205,27 @@ public class GameEasy extends javax.swing.JFrame {
                 }
             }
         }
+        for (int row = 0; row < instance.getEasyMatrix().length; row++) {
+            Barrell tempBarrell;
+            for (int col = 0; col < instance.getEasyMatrix().length; col++) {
+                if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
+                    tempBarrell=(Barrell)instance.getEasyMatrix()[row][col];
+                    tempBarrell.setTextArea(jTextArea1);
+                    tempBarrell.setHero(hero);
+                    tempBarrell.setMatrix(instance.getEasyMatrix());
+                    System.err.println(tempBarrell.getState().toString());
+                    if(tempBarrell.isAlive()){
+                        tempBarrell.interrupt();
+                    }
+                    tempBarrell.start();
+                }
+            }
+        }
         finished=true;
         }
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

@@ -7,8 +7,11 @@ package Objects;
 
 import Functionality.Bombermaniac;
 import static Functionality.Globals.instance;
+import GUI.GameEasy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import jdk.nashorn.internal.ir.ContinueNode;
 
 /**
@@ -18,12 +21,19 @@ import jdk.nashorn.internal.ir.ContinueNode;
 public class Balloon extends Element{
     Hero hero;
     Element[][] matrix;
+    JTextArea textArea;
+    private boolean isDead;
     public Balloon(int posicionX, int posicionY) {
         super(posicionX, posicionY);
         this.hero=null;
         this.matrix=null;
+        this.isDead=false;
     }
 
+    public void setTextArea(JTextArea textArea) {
+        this.textArea = textArea;
+    }
+    
     public void setHero(Hero hero) {
         this.hero = hero;
     }
@@ -124,17 +134,28 @@ public class Balloon extends Element{
     public void die(Element[][] matrix){
         EmptySpace space=new EmptySpace(0, 0);
         matrix[this.getPositionX()][this.getPositionY()]=space;
+        this.isDead=true;
     }
+        
     
     @Override
-    public void run(){
-        System.out.println("Ballon Started");
-        try {
-            Balloon.sleep(1000);
-            this.move(matrix, hero);
-            System.out.println("Ballon Position: "+this.getPositionX()+","+this.getPositionY());
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Balloon.class.getName()).log(Level.SEVERE, null, ex);
+         public void run(){
+            System.out.println("Ballon Started");
+
+            try {
+                while(this.isDead==false){
+                    this.move(matrix, hero);
+                    this.textArea.setText("");
+                    this.textArea.setText(instance.printMatrix(matrix));
+                    Balloon.sleep(1500);
+                    
+                }
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Balloon.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            this.interrupt();
         }
-    }
+
 }

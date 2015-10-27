@@ -172,18 +172,6 @@ public class Globals {
        }
 
        i=0;
-       while(i<1){//places the hero
-           int line=Bombermaniac.randomNumber(40);
-           int column=Bombermaniac.randomNumber(40);
-           if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Hero(column, line);
-               instance.heroPositionX=line;
-               instance.heroPositionY=column;
-               i++;
-           }
-       }
-
-       i=0;
        while(i<10){//10 randomly placed balloons
            int line=Bombermaniac.randomNumber(40);
            int column=Bombermaniac.randomNumber(40);
@@ -255,18 +243,6 @@ public class Globals {
            int column=Bombermaniac.randomNumber(60);
            if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
                instance.hardMatrix[line][column]=new Block(0, 0);
-               i++;
-           }
-       }
-       i=0;
-
-       while(i<1){//places the hero
-           int line=Bombermaniac.randomNumber(60);
-           int column=Bombermaniac.randomNumber(60);
-           if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Hero(column, line);
-               instance.heroPositionX=line;
-               instance.heroPositionY=column;
                i++;
            }
        }
