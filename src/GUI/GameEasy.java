@@ -13,8 +13,13 @@ import Functionality.Music;
 import Functionality.Timer;
 import Objects.Balloon;
 import Objects.Barrell;
+import Objects.Element;
 import Objects.Hero;
 import java.awt.event.KeyEvent;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.xml.bind.JAXBElement;
 /**
  *
@@ -31,23 +36,29 @@ public class GameEasy extends javax.swing.JFrame {
     
     public GameEasy() {
         initComponents();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //The thread for the main music in the game
         //music=new Music(this);
         //musicThread=new Thread(music);
         //musicThread.start();
         
-        //creates an plays the music
+        //creates and plays the music
         
         mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\easy.mp3");
         instance.setMusic(mp3);
         instance.getMusic().play();
         
         
-        newTimer=new Timer(jLabel3);
-        newTimer.startTimer();
+        newTimer=new Timer(timerlbl);
+        newTimer.start();
         
+        try {
+            instance.getCurrentMatrix().fill();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(GameEasy.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
+        jTextArea1.setText(instance.printMatrix());
         
         
         
@@ -67,7 +78,7 @@ public class GameEasy extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        timerlbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bombermaniac!--EASY");
@@ -106,7 +117,7 @@ public class GameEasy extends javax.swing.JFrame {
 
         jLabel2.setText("jLabel2");
 
-        jLabel3.setText("jLabel3");
+        timerlbl.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,7 +130,7 @@ public class GameEasy extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
+                    .addComponent(timerlbl)
                     .addComponent(jLabel1)))
         );
         layout.setVerticalGroup(
@@ -134,7 +145,7 @@ public class GameEasy extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addGap(72, 72, 72)
-                        .addComponent(jLabel3)
+                        .addComponent(timerlbl)
                         .addGap(0, 234, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -157,10 +168,10 @@ public class GameEasy extends javax.swing.JFrame {
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
         
             //hero.setEvent(evt);
-            hero.move(instance.getEasyMatrix(), evt);
-            jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
-            jLabel1.setText("X: "+hero.getPositionY());
-            jLabel2.setText("Y: "+hero.getPositionX());
+            hero.move(instance.getCurrentMatrix().getMatrix(), evt);
+            jTextArea1.setText(instance.printMatrix());
+            jLabel1.setText("X: "+hero.getPositionX());
+            jLabel2.setText("Y: "+hero.getPositionY());
             
             
                 
@@ -172,57 +183,59 @@ public class GameEasy extends javax.swing.JFrame {
         boolean placed=false;
         
         while(!placed){
-        int line=Bombermaniac.randomNumber(20);
-        int column=Bombermaniac.randomNumber(20);
-           if(instance.getEasyMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               hero=new Hero(line, column,this);
-               instance.getEasyMatrix()[line][column]=hero;
-               instance.heroPositionX=line;
-               instance.heroPositionY=column;
+        int line=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
+        int column=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
+           if(instance.getCurrentMatrix().getMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")){
+               hero=new Hero(column, line,this);
+               instance.getCurrentMatrix().getMatrix()[line][column]=hero;
+               instance.heroPositionX=column;
+               instance.heroPositionY=line;
                hero.start();
                placed=true;
-               jLabel1.setText("X: "+hero.getPositionY());
-               jLabel2.setText("Y: "+hero.getPositionX());
-               jTextArea1.setText(instance.printMatrix(instance.getEasyMatrix()));
+               jLabel1.setText("X: "+hero.getPositionX());
+               jLabel2.setText("Y: "+hero.getPositionY());
+               jTextArea1.setText(instance.printMatrix());
            }
         }
         boolean finished=false;
         while(!finished){
-            
-        for (int row = 0; row < instance.getEasyMatrix().length; row++) {
-            Balloon tempBalloon;
-            for (int col = 0; col < instance.getEasyMatrix().length; col++) {
-                if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
-                    tempBalloon=(Balloon)instance.getEasyMatrix()[row][col];
-                    tempBalloon.setTextArea(jTextArea1);
-                    tempBalloon.setHero(hero);
-                    tempBalloon.setMatrix(instance.getEasyMatrix());
-                    System.err.println(tempBalloon.getState().toString());
-                    if(tempBalloon.isAlive()){
-                        tempBalloon.interrupt();
+        
+            /*
+            for (int row = 0; row < instance.getCurrentMatrix().getMatrix().length; row++) {
+                Balloon tempBalloon;
+                for (int col = 0; col < instance.getCurrentMatrix().getMatrix().length; col++) {
+                    if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
+                        tempBalloon=(Balloon)instance.getCurrentMatrix().getMatrix()[row][col];
+                        tempBalloon.setImage(jTextArea1);
+                        tempBalloon.setHero(hero);
+                        instance.getCurrentMatrix().getMatrix()[row][col].start();
+                        System.err.println("Balloon State"+tempBalloon.getState().toString());
+
+
                     }
-                    tempBalloon.start();
                 }
             }
-        }
-        for (int row = 0; row < instance.getEasyMatrix().length; row++) {
-            Barrell tempBarrell;
-            for (int col = 0; col < instance.getEasyMatrix().length; col++) {
-                if(instance.getEasyMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
-                    tempBarrell=(Barrell)instance.getEasyMatrix()[row][col];
-                    tempBarrell.setTextArea(jTextArea1);
-                    tempBarrell.setHero(hero);
-                    tempBarrell.setMatrix(instance.getEasyMatrix());
-                    System.err.println(tempBarrell.getState().toString());
-                    if(tempBarrell.isAlive()){
-                        tempBarrell.interrupt();
+            */
+            for (int row = 0; row < instance.getCurrentMatrix().getMatrix().length; row++) {
+                Barrell tempBarrell;
+                for (int col = 0; col < instance.getCurrentMatrix().getMatrix().length; col++) {
+                    if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
+                        tempBarrell=(Barrell)instance.getCurrentMatrix().getMatrix()[row][col];
+                        try {//tries to get the image url
+                            tempBarrell.setImageLabel();
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(GameEasy.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        tempBarrell.setHero(hero);
+                        instance.getCurrentMatrix().getMatrix()[row][col].start();
+                        System.out.println("Barrel State"+tempBarrell.getState().toString());
+
                     }
-                    tempBarrell.start();
                 }
             }
+            finished=true;
         }
-        finished=true;
-        }
+        
         
         
         
@@ -271,8 +284,8 @@ public class GameEasy extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel timerlbl;
     // End of variables declaration//GEN-END:variables
 }

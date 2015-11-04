@@ -8,8 +8,11 @@ package Objects;
 import Functionality.Bombermaniac;
 import static Functionality.Globals.instance;
 import GUI.GameEasy;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import jdk.nashorn.internal.ir.ContinueNode;
@@ -20,13 +23,11 @@ import jdk.nashorn.internal.ir.ContinueNode;
  */
 public class Balloon extends Element{
     Hero hero;
-    Element[][] matrix;
     JTextArea textArea;
     private boolean isDead;
     public Balloon(int posicionX, int posicionY) {
         super(posicionX, posicionY);
         this.hero=null;
-        this.matrix=null;
         this.isDead=false;
     }
 
@@ -37,18 +38,14 @@ public class Balloon extends Element{
     public void setHero(Hero hero) {
         this.hero = hero;
     }
-
-    public void setMatrix(Element[][] matrix) {
-        this.matrix = matrix;
-    }
     
-    public void move(Element[][] matrix,Hero hero){
+    public void move(Hero hero){
         Element evaluedElement;
         int direction=Bombermaniac.randomNumber(4);
         try{
         if(direction==0){
             if(!(this.getPositionX()-1<0)||(this.getPositionX()+1>19)||(this.getPositionY()-1<0)||(this.getPositionY()+1>19)){
-                    evaluedElement=matrix[this.getPositionX()][this.getPositionY()+1];
+                    evaluedElement=instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()+1];
                     
                     if((!evaluedElement.isIndestructible())||(evaluedElement.canBeStomped())){
                         if(evaluedElement.getClass().getSimpleName().equals("Hero")){
@@ -58,8 +55,8 @@ public class Balloon extends Element{
                             return;
                         }
                         else{
-                            matrix[this.getPositionX()][this.getPositionY()+1]=this;
-                            matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()+1]=this;
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
                             this.setPosition(this.getPositionX(), this.getPositionY()+1);
 
                         }
@@ -68,7 +65,7 @@ public class Balloon extends Element{
         }
         
         else if(direction==1){
-            evaluedElement=matrix[this.getPositionX()][this.getPositionY()-1];
+            evaluedElement=instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()-1];
             if((!evaluedElement.isIndestructible())||(evaluedElement.canBeStomped())){
                         if(evaluedElement.getClass().getSimpleName().equals("Hero")){
                             hero.die();
@@ -77,15 +74,15 @@ public class Balloon extends Element{
                             return;
                         }
                         else{
-                            matrix[this.getPositionX()][this.getPositionY()-1]=this;
-                            matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()-1]=this;
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
                             this.setPosition(this.getPositionX(), this.getPositionY()-1);
                         }
                     }
         }
         
         else if(direction==2){
-            evaluedElement=matrix[this.getPositionX()-1][this.getPositionY()];
+            evaluedElement=instance.getCurrentMatrix().getMatrix()[this.getPositionX()-1][this.getPositionY()];
             if((!evaluedElement.isIndestructible())||(evaluedElement.canBeStomped())){
                         if(evaluedElement.getClass().getSimpleName().equals("Hero")){
                             hero.die();
@@ -93,15 +90,15 @@ public class Balloon extends Element{
                         else if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
                         }
                         else{
-                            matrix[this.getPositionX()-1][this.getPositionY()]=this;
-                            matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()-1][this.getPositionY()]=this;
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
                             this.setPosition(this.getPositionX()-1, this.getPositionY());
                         }
                     }
             
         }
         else{
-            evaluedElement=matrix[this.getPositionX()+1][this.getPositionY()];
+            evaluedElement=instance.getCurrentMatrix().getMatrix()[this.getPositionX()+1][this.getPositionY()];
             if((!evaluedElement.isIndestructible())||(evaluedElement.canBeStomped())){
                         if(evaluedElement.getClass().getSimpleName().equals("Hero")){
                             hero.die();
@@ -109,16 +106,25 @@ public class Balloon extends Element{
                         else if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
                         }
                         else{
-                            matrix[this.getPositionX()+1][this.getPositionY()]=this;
-                            matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()+1][this.getPositionY()]=this;
+                            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
                             this.setPosition(this.getPositionX()+1, this.getPositionY());
                         }
                     }
         }
         }catch(java.lang.ArrayIndexOutOfBoundsException e){
             
+        }catch(java.lang.NullPointerException e){
+            System.err.println("THE BALLOON IS NULL");
         }
         
+    }
+    
+    @Override
+    public void setImageLabel() throws MalformedURLException{
+        ImageIcon balloon=new ImageIcon(Balloon.class.getResource("/Images/balloon.png"));
+        this.getImageLabel().setIcon(balloon);
+        this.getPanel().add(this.getImageLabel());
     }
     
     @Override
@@ -131,31 +137,34 @@ public class Balloon extends Element{
         return false;
     }
     
-    public void die(Element[][] matrix){
+    public void die(){
         EmptySpace space=new EmptySpace(0, 0);
-        matrix[this.getPositionX()][this.getPositionY()]=space;
+        instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()]=space;
         this.isDead=true;
     }
         
     
     @Override
          public void run(){
-            System.out.println("Ballon Started");
-
             try {
                 while(this.isDead==false){
-                    this.move(matrix, hero);
-                    this.textArea.setText("");
-                    this.textArea.setText(instance.printMatrix(matrix));
+                    this.move(hero);
+                    //this.textArea.setText("");
+                    //this.textArea.setText(instance.printMatrix());
+                    instance.paintFrame();
                     Balloon.sleep(1500);
                     
                 }
 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Balloon.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }catch (java.lang.NullPointerException ex) {
+                Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (MalformedURLException ex) {
+                        Logger.getLogger(Balloon.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             
-            this.interrupt();
+            
         }
 
 }

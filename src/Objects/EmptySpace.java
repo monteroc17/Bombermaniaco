@@ -5,6 +5,10 @@
  */
 package Objects;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Daniel-PC
@@ -13,6 +17,13 @@ public class EmptySpace extends Element{
 
     public EmptySpace(int positionX, int positionY) {
         super(positionX, positionY);
+    }
+    
+    @Override
+    public void setImageLabel() throws MalformedURLException{
+        ImageIcon grass=new ImageIcon(EmptySpace.class.getResource("/Images/grass.png"));
+        this.getImageLabel().setIcon(grass);
+        this.getPanel().add(this.getImageLabel());
     }
     
     @Override

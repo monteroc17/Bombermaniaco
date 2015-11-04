@@ -7,6 +7,11 @@ package GUI;
 
 import static Functionality.Globals.instance;
 import Functionality.MP3;
+import Functionality.Matrix;
+import Functionality.MatrixFactory;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,11 +20,14 @@ import Functionality.MP3;
 public class ChooseDifficulty extends javax.swing.JFrame {
 
     MP3 mp3;
+    MatrixFactory factory;
     public ChooseDifficulty() {
         initComponents();
         
         mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\difficulty.mp3");
         mp3.play();
+        
+        factory=new MatrixFactory();
     }
 
     /**
@@ -129,18 +137,52 @@ public class ChooseDifficulty extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         mp3.close();
         this.dispose();
-        GameEasy newEasyGame=new GameEasy();
-        newEasyGame.setVisible(true);
+        
+        Matrix currentMatrix=factory.MatrixCreator(1);
+        instance.setCurrentMatrix(currentMatrix);
+        
+        //GameEasy newEasyGame=new GameEasy();
+        //newEasyGame.setVisible(true);
+        GameMedium newMediumGame;
+        try {
+            newMediumGame = new GameMedium();
+            newMediumGame.setVisible(true);
+            this.dispose();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         mp3.close();
+        Matrix currentMatrix=factory.MatrixCreator(2);
+        instance.setCurrentMatrix(currentMatrix);
+        
+        GameMedium newMediumGame;
+        try {
+            newMediumGame = new GameMedium();
+            newMediumGame.setVisible(true);
+            this.dispose();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         mp3.close();
+        Matrix currentMatrix=factory.MatrixCreator(3);
+        instance.setCurrentMatrix(currentMatrix);
         
+        GameMedium newMediumGame;
+        try {
+            newMediumGame = new GameMedium();
+            newMediumGame.setVisible(true);
+            this.dispose();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

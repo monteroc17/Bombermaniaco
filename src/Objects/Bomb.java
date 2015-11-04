@@ -5,6 +5,10 @@
  */
 package Objects;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Daniel-PC
@@ -19,6 +23,13 @@ public class Bomb extends Element{
     @Override
     public boolean canBeStomped(){
         return true;
+    }
+    
+    @Override
+    public void setImageLabel() throws MalformedURLException{
+        ImageIcon bomb=new ImageIcon(Bomb.class.getResource("/Images/bomb.gif"));
+        this.getImageLabel().setIcon(bomb);
+        this.getPanel().add(this.getImageLabel());
     }
     
     @Override

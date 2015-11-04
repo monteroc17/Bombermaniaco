@@ -5,6 +5,10 @@
  */
 package Objects;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Daniel-PC
@@ -13,6 +17,13 @@ public class BarrierBlock extends Element{
 
     public BarrierBlock(int positionX, int positionY) {
         super(positionX, positionY);
+    }
+    
+    @Override
+    public void setImageLabel() throws MalformedURLException{
+        ImageIcon barrier=new ImageIcon(BarrierBlock.class.getResource("/Images/barrier.png"));
+        this.getImageLabel().setIcon(barrier);
+        this.getPanel().add(this.getImageLabel());
     }
     
     @Override

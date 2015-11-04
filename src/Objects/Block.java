@@ -5,36 +5,28 @@
  */
 package Objects;
 
+import java.net.MalformedURLException;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import static jdk.nashorn.internal.objects.NativeDebug.getClass;
+import static sun.security.x509.OIDMap.getClass;
+
 /**
  *
  * @author Daniel-PC
  */
 public class Block extends Element{
     
-    private boolean hasPower,hasDoor;
     public Block(int positionX, int positionY) {
         super(positionX, positionY);
-        this.hasDoor=false;
-        this.hasPower=false;
-    }
-
-    public boolean HasPower() {
-        return hasPower;
-    }
-
-    public void setHasPower(boolean hasPower) {
-        this.hasPower = hasPower;
-    }
-
-    public boolean HasDoor() {
-        return hasDoor;
-    }
-
-    public void setHasDoor(boolean hasDoor) {
-        this.hasDoor = hasDoor;
     }
     
-    
+    @Override
+    public void setImageLabel() throws MalformedURLException{
+        ImageIcon block=new ImageIcon(Block.class.getResource("/Images/block.gif"));
+        this.getImageLabel().setIcon(block);
+        this.getPanel().add(this.getImageLabel());
+    }
     
     @Override
     public boolean canBeStomped(){

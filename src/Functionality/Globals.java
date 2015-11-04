@@ -5,14 +5,12 @@
  */
 package Functionality;
 
-import Objects.Balloon;
-import Objects.Barrell;
-import Objects.BarrierBlock;
-import Objects.Block;
-import Objects.Element;
-import Objects.EmptySpace;
-import Objects.Hero;
-import javax.swing.JTextArea;
+import GUI.GameMedium;
+import java.awt.ComponentOrientation;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.net.MalformedURLException;
+import javax.swing.JPanel;
 
 /**
  *
@@ -20,11 +18,13 @@ import javax.swing.JTextArea;
  */
 public class Globals {
     public static Globals instance;
-    private Element[][] easyMatrix;
-    private Element[][] mediumMatrix;
-    private Element[][] hardMatrix;
+    private Matrix currentMatrix;
     public int heroPositionX,heroPositionY;
     MP3 music;
+    private GameMedium frame;
+    private JPanel panel;
+    GridBagConstraints constraints;
+    
 
     private Globals() {
     }
@@ -34,94 +34,78 @@ public class Globals {
             instance=new Globals();
             instance.heroPositionX=0;
             instance.heroPositionY=0;
-            instance.easyMatrix=new Element[20][20];
-            instance.mediumMatrix=new Element[40][40];
-            instance.hardMatrix=new Element[60][60];
+            instance.currentMatrix=null;
+            instance.frame=null;
             instance.music=null;
-            
+            instance.panel=null;
+            instance.constraints=new GridBagConstraints();
+            instance.constraints.gridheight=50;
+            instance.constraints.gridwidth=50;
         }
         return instance;
     }
 
     public void setMusic(MP3 music) {
-        this.music = music;
+        instance.music = music;
     }
 
     public MP3 getMusic() {
-        return music;
+        return instance.music;
     }
-    
-    public Element[][] getEasyMatrix() {
-        return instance.easyMatrix;
-    }
-    
-    public void fillEasyMatrix(){
-        BarrierBlock barrier=new BarrierBlock(0,0);
-        for(int line=0;line<instance.easyMatrix.length;line++){
-            for(int column=0;column<instance.easyMatrix.length;column++){
-                instance.easyMatrix[line][column]=new EmptySpace(0, 0);
-            }
-        }
-        
-        for(int line=0;line<instance.easyMatrix.length;line+=2){//fills with barriers
-            for(int column=1;column<instance.easyMatrix.length;column+=2){
-                instance.easyMatrix[line][column]=barrier;
-            }
-        }
-       
-       int i=0;
-       while(i<1){
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               Block newBlock=new Block(0, 0);
-               newBlock.setHasDoor(true);
-               instance.easyMatrix[line][column]=new Block(0,0);
-               i++;
-           }
-       }
 
-       while(i<5){//fills the map with 4 blocks with powers
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           
-           
-           if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               Block newBlock=new Block(0, 0);
-               newBlock.setHasPower(true);
-               instance.easyMatrix[line][column]=new Block(0,0);
-               i++;
-           }
-       }
-       while(i<75){//fills with randomly placed blocks
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Block(0, 0);
-               i++;
-           }
-       }
-       
-       i=0;
-       while(i<6){//6 randomly placed barrels
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Balloon(column, line);
-               i++;
-           }
-       }
-       i=0;
-       while(i<3){//3 randomly placed barrels
-           int line=Bombermaniac.randomNumber(20);
-           int column=Bombermaniac.randomNumber(20);
-           if(instance.easyMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.easyMatrix[line][column]=new Barrell(column, line);
-               i++;
-           }
-       }
+    public Matrix getCurrentMatrix() {
+        return instance.currentMatrix;
+    }
+
+    public void setCurrentMatrix(Matrix currentMatrix) {
+        instance.currentMatrix = currentMatrix;
+    }
+
+    public GameMedium getFrame() {
+        return instance.frame;
+    }
+
+    public void setFrame(GameMedium frame) {
+        instance.frame = frame;
+    }
+
+    public JPanel getPanel() {
+        return instance.panel;
+    }
+
+    public void setPanel(JPanel panel) {
+        instance.panel = panel;
+        instance.panel.setLayout(new GridBagLayout());
+        
     }
     
+    public void paintFrame() throws MalformedURLException{
+        try{
+        instance.panel.removeAll();
+        for(int line=0;line<instance.currentMatrix.getMatrix().length;line++){
+            
+            for(int column=0;column<instance.currentMatrix.getMatrix().length;column++){
+                //instance.currentMatrix.getMatrix()[line][column].setPanel(instance.panel);
+                instance.currentMatrix.getMatrix()[line][column].setImageLabel();
+                
+                instance.constraints.gridx=line*50;
+                instance.constraints.gridy=column*50;
+                instance.panel.add(instance.currentMatrix.getMatrix()[line][column].getImageLabel(),instance.constraints);
+                
+                
+            }
+        }
+        instance.panel.setPreferredSize(instance.panel.getPreferredSize());
+        instance.panel.validate();
+        }catch(java.lang.ArrayIndexOutOfBoundsException e){
+            
+        }
+        catch(java.lang.NullPointerException e){
+            e.getMessage();
+        }
+    }
+    
+    /*
     public void fillMediumMatrix(){
         BarrierBlock barrier=new BarrierBlock(0,0);
         for(int line=0;line<instance.mediumMatrix.length;line++){//se llena de espacios vacios
@@ -272,21 +256,21 @@ public class Globals {
     public Element[][] getHardMatrix() {
         return instance.hardMatrix;
     }
-
+    */
     public int getHeroPositionX() {
-        return heroPositionX;
+        return instance.heroPositionX;
     }
 
     public int getHeroPositionY() {
-        return heroPositionY;
+        return instance.heroPositionY;
     }
     
-    public String printMatrix(Element[][] matrix){
+    public String printMatrix(){
         
         String matrixString="";
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[row].length; col++) {
-                matrixString+=matrix[row][col].getClass().getSimpleName()+"\t";
+        for (int row = 0; row < instance.currentMatrix.getMatrix().length; row++) {
+            for (int col = 0; col < instance.currentMatrix.getMatrix()[row].length; col++) {
+                matrixString+=instance.currentMatrix.getMatrix()[row][col].getClass().getSimpleName()+"\t";
             }
             matrixString+="\n";
         }

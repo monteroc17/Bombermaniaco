@@ -6,10 +6,16 @@
 package Objects;
 
 import static Functionality.Globals.instance;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextArea;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -17,8 +23,6 @@ import javax.swing.JTextArea;
  */
 public class Barrell extends Element{
     Hero hero;
-    Element[][] matrix;
-    JTextArea textArea;
     private boolean isDead;
     public Barrell(int positionX, int positionY) {
         super(positionX, positionY);
@@ -29,27 +33,23 @@ public class Barrell extends Element{
         this.hero = hero;
     }
     
-    public void setTextArea(JTextArea textArea) {
-        this.textArea = textArea;
-    }
-    
-    public void setMatrix(Element[][] matrix) {
-        this.matrix = matrix;
-    }
-    
     public void bestMove(Hero hero){
         int up,down,left,right;
         int bestMove=Integer.MAX_VALUE;
         ArrayList<Integer> array =new ArrayList<>();
+        int heroX=hero.getPositionX();
+        int heroY=hero.getPositionY();
+        int barrellX=this.getPositionX();
+        int barrellY=this.getPositionY();
         //If the Hero is UP and LEFT or if the Hero is DOWN and RIGHT
-        if(((hero.getPositionX()<this.getPositionX())&&(hero.getPositionY()>this.getPositionY()))||((hero.getPositionX()>this.getPositionX())&&(hero.getPositionY()<this.getPositionY()))){
-            up=(hero.getPositionX()-this.getPositionX())+(hero.getPositionY()-(this.getPositionY()+1));
+        if(((heroX>=barrellX)&&(heroY<barrellY))||((heroX<barrellX)&&(heroY>=barrellY))){
+            up=(heroX-barrellX)+(heroY-(barrellY+1));
             array.add(up);
-            down=(hero.getPositionX()-this.getPositionX())+(hero.getPositionY()-(this.getPositionY()-1));
+            down=(heroX-barrellX)+(heroY-(barrellY-1));
             array.add(down);
-            left=(hero.getPositionX()-(this.getPositionX()-1))+(hero.getPositionY()-this.getPositionY());
+            left=(heroX-(barrellX-1))+(heroY-barrellY);
             array.add(left);
-            right=(hero.getPositionX()-(this.getPositionX()+1))+(hero.getPositionY()-this.getPositionY());
+            right=(heroX-(barrellX+1))+(heroY-barrellY);
             array.add(right);
 
             for(Integer i:array){
@@ -58,36 +58,36 @@ public class Barrell extends Element{
                 }
             }
 
-            if(bestMove==up){
-                matrix[this.getPositionX()][this.getPositionY()+1]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX(), this.getPositionY()+1);
+            if(bestMove==down){
+                instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1]=this;
+                instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                this.setPosition(barrellX, barrellY+1);
             }
-            else if(bestMove==down){
-                matrix[this.getPositionX()][this.getPositionY()-1]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX(), this.getPositionY()-1);
+            else if(bestMove==up){
+                instance.getCurrentMatrix().getMatrix()[barrellX][barrellY-1]=this;
+                instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                this.setPosition(barrellX, barrellY-1);
             }
-            else if(bestMove==left){
-                matrix[this.getPositionX()-1][this.getPositionY()]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX()-1, this.getPositionY());
+            else if(bestMove==right){
+                instance.getCurrentMatrix().getMatrix()[barrellX-1][barrellY]=this;
+                instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                this.setPosition(barrellX-1, barrellY);
             }
             else{
-                matrix[this.getPositionX()+1][this.getPositionY()]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX()+1, this.getPositionY());
+                instance.getCurrentMatrix().getMatrix()[barrellX+1][barrellY]=this;
+                instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                this.setPosition(barrellX+1, barrellY);
             }
         }
         //If the Hero is DOWN and LEFT or if the Hero is UP and RIGHT 
-        else if(((hero.getPositionX()<this.getPositionX())&&(hero.getPositionY()<this.getPositionY()))||((hero.getPositionX()>this.getPositionX())&&(hero.getPositionY()>this.getPositionY()))){
-            up=(-(hero.getPositionX()-this.getPositionX()))+(hero.getPositionY()-(this.getPositionY()+1));
+        else if(((heroX<barrellX)&&(heroY<barrellY))||((heroX>=barrellX)&&(heroY>=barrellY))){
+            up=(-(heroX-barrellX))+(heroY-(barrellY+1));
             array.add(up);
-            down=(-(hero.getPositionX()-this.getPositionX()))+(hero.getPositionY()-(this.getPositionY()-1));
+            down=(-(heroX-barrellX))+(heroY-(barrellY-1));
             array.add(down);
-            left=(-(hero.getPositionX()-(this.getPositionX()-1)))+(hero.getPositionY()-this.getPositionY());
+            left=(-(heroX-(barrellX-1)))+(heroY-barrellY);
             array.add(left);
-            right=(-(hero.getPositionX()-(this.getPositionX()+1)))+(hero.getPositionY()-this.getPositionY());
+            right=(-(heroX-(barrellX+1)))+(heroY-barrellY);
             array.add(right);
 
             for(Integer i:array){
@@ -96,54 +96,75 @@ public class Barrell extends Element{
                 }
             }
 
-            if(bestMove==up){
-                matrix[this.getPositionX()][this.getPositionY()+1]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX(), this.getPositionY()+1);
+            if((bestMove==down)&&(instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1].canBeStomped())&&(!instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1].isIndestructible())){
+                Element evaluedElement=instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1];
+                if(evaluedElement.getClass().getName().equals("Hero")){
+                    hero.die();
+                }
+                else if((!evaluedElement.getClass().getName().equals("Balloon"))||(!evaluedElement.getClass().getName().equals("Barrell"))){
+                    instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1]=this;
+                    instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                    this.setPosition(barrellX, barrellY+1);
+                }
+                    
             }
-            else if(bestMove==down){
-                matrix[this.getPositionX()][this.getPositionY()-1]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX(), this.getPositionY()-1);
+            else if((bestMove==up)&&(instance.getCurrentMatrix().getMatrix()[barrellX][barrellY-1].canBeStomped())&&(!instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1].isIndestructible())){
+                Element evaluedElement=instance.getCurrentMatrix().getMatrix()[barrellX][barrellY-1];
+                if(evaluedElement.getClass().getName().equals("Hero")){
+                    hero.die();
+                }
+                else if((!evaluedElement.getClass().getName().equals("Balloon"))||(!evaluedElement.getClass().getName().equals("Barrell"))){
+                    instance.getCurrentMatrix().getMatrix()[barrellX][barrellY-1]=this;
+                    instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                    this.setPosition(barrellX, barrellY-1);
+                }
+                
             }
-            else if(bestMove==left){
-                matrix[this.getPositionX()-1][this.getPositionY()]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX()-1, this.getPositionY());
+            else if((bestMove==right)&&(instance.getCurrentMatrix().getMatrix()[barrellX+1][barrellY].canBeStomped())&&(!instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1].isIndestructible())){
+                Element evaluedElement=instance.getCurrentMatrix().getMatrix()[barrellX+1][barrellY];
+                if(evaluedElement.getClass().getName().equals("Hero")){
+                    hero.die();
+                }
+                else if((!evaluedElement.getClass().getName().equals("Balloon"))||(!evaluedElement.getClass().getName().equals("Barrell"))){
+                    instance.getCurrentMatrix().getMatrix()[barrellX-1][barrellY]=this;
+                    instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                    this.setPosition(barrellX-1, barrellY);
+                }
+                    
             }
-            else{
-                matrix[this.getPositionX()+1][this.getPositionY()]=this;
-                matrix[this.getPositionX()][this.getPositionY()]=new EmptySpace(0, 0);
-                this.setPosition(this.getPositionX()+1, this.getPositionY());
+            else if((bestMove==left)&&(instance.getCurrentMatrix().getMatrix()[barrellX-1][barrellY].canBeStomped())&&(!instance.getCurrentMatrix().getMatrix()[barrellX][barrellY+1].isIndestructible())){
+                Element evaluedElement=instance.getCurrentMatrix().getMatrix()[barrellX-1][barrellY];
+                if(evaluedElement.getClass().getName().equals("Hero")){
+                    hero.die();
+                }
+                else if((!evaluedElement.getClass().getName().equals("Balloon"))||(!evaluedElement.getClass().getName().equals("Barrell"))){
+                    instance.getCurrentMatrix().getMatrix()[barrellX+1][barrellY]=this;
+                    instance.getCurrentMatrix().getMatrix()[barrellX][barrellY]=new EmptySpace(0, 0);
+                    this.setPosition(barrellX+1, barrellY);
+                }
+                    
             }
         }
             
             
     }
 
-    public void move(Element[][] matrix,Hero hero){
+    public void move(Hero hero){
         Element evaluedElement;
         try{
             if(!(this.getPositionX()-1<0)||(this.getPositionX()+1>19)||(this.getPositionY()-1<0)||(this.getPositionY()+1>19)){
-                    evaluedElement=matrix[this.getPositionX()][this.getPositionY()+1];
-                    
-                    if((!evaluedElement.isIndestructible())||(evaluedElement.canBeStomped())){
-                        if(evaluedElement.getClass().getSimpleName().equals("Hero")){
-                            hero.die();
-                        }
-                        else if((evaluedElement.getClass().getSimpleName().equals("Balloon"))||(evaluedElement.getClass().getSimpleName().equals("Barrell"))){
-                            return;
-                        }
-                        else{
-                            bestMove(hero);
-                            
-
-                        }
-                    }
+                bestMove(hero);
             }
-        }catch(Exception e){
+        }catch(IndexOutOfBoundsException e){
             
         }
+    }
+    
+    @Override
+    public void setImageLabel() throws MalformedURLException{
+        ImageIcon barrell=new ImageIcon(Barrell.class.getResource("/Images/barrell.png"));
+        this.getImageLabel().setIcon(barrell);
+        //this.getPanel().add(this.getImageLabel());
     }
     
     @Override
@@ -156,30 +177,34 @@ public class Barrell extends Element{
         return false;
     }
     
-    public void die(Element[][] matrix){
+    public void die(){
         EmptySpace space=new EmptySpace(0, 0);
-        matrix[this.getPositionX()][this.getPositionY()]=space;
+        instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()]=space;
         this.isDead=true;
     }
     
     @Override
     public void run(){
-        System.out.println("Barrell Started");
-
             try {
                 while(this.isDead==false){
-                    this.move(matrix, hero);
-                    this.textArea.setText("");
-                    this.textArea.setText(instance.printMatrix(matrix));
+                    this.move(hero);
+                    //this.textArea.setText("");
+                    //this.textArea.setText(instance.printMatrix());
+                    instance.paintFrame();
+                    
                     Barrell.sleep(1500);
                     
                 }
 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }catch (java.lang.NullPointerException ex) {
+                Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (MalformedURLException ex) {
+                        Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             
-            this.interrupt();
+            
     }
     
 }

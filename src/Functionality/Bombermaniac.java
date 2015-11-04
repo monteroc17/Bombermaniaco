@@ -21,9 +21,7 @@ public class Bombermaniac {
      */
     public static void main(String[] args) {
         Globals globals=Globals.getInstance();
-        globals.fillEasyMatrix();
-        globals.fillMediumMatrix();
-        globals.fillHardMatrix();
+        
 
         MainMenu newWindow=new MainMenu();
         newWindow.setVisible(true);
