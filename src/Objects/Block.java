@@ -5,11 +5,14 @@
  */
 package Objects;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import static jdk.nashorn.internal.objects.NativeDebug.getClass;
-import static sun.security.x509.OIDMap.getClass;
 
 /**
  *
@@ -22,10 +25,25 @@ public class Block extends Element{
     }
     
     @Override
-    public void setImageLabel() throws MalformedURLException{
-        ImageIcon block=new ImageIcon(Block.class.getResource("/Images/block.gif"));
-        this.getImageLabel().setIcon(block);
+    public void setLabel(){
+        ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/barrier.png"));
+        this.getImageLabel().setIcon(hero);
         this.getPanel().add(this.getImageLabel());
+    }
+    
+    @Override
+    public Image setImage() throws MalformedURLException{
+        //ImageIcon block=new ImageIcon(Block.class.getResource("/Images/barrier.png"));
+        //this.imageLabel.setIcon(block);
+        //this.getPanel().add(this.getImageLabel());
+        BufferedImage block = null;
+        try {
+            block=ImageIO.read(Barrell.class.getResource("/Images/barrier.png"));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return block;
     }
     
     @Override

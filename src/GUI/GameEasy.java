@@ -188,8 +188,8 @@ public class GameEasy extends javax.swing.JFrame {
            if(instance.getCurrentMatrix().getMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")){
                hero=new Hero(column, line,this);
                instance.getCurrentMatrix().getMatrix()[line][column]=hero;
-               instance.heroPositionX=column;
-               instance.heroPositionY=line;
+               instance.setHeroPositionX(column);
+               instance.setHeroPositionY(line);
                hero.start();
                placed=true;
                jLabel1.setText("X: "+hero.getPositionX());
@@ -222,7 +222,7 @@ public class GameEasy extends javax.swing.JFrame {
                     if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
                         tempBarrell=(Barrell)instance.getCurrentMatrix().getMatrix()[row][col];
                         try {//tries to get the image url
-                            tempBarrell.setImageLabel();
+                            tempBarrell.setImage();
                         } catch (MalformedURLException ex) {
                             Logger.getLogger(GameEasy.class.getName()).log(Level.SEVERE, null, ex);
                         }

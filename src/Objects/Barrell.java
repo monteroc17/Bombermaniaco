@@ -6,6 +6,8 @@
 package Objects;
 
 import static Functionality.Globals.instance;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -145,7 +147,7 @@ public class Barrell extends Element{
                     
             }
         }
-            
+        instance.getPanel().revalidate();  
             
     }
 
@@ -161,10 +163,25 @@ public class Barrell extends Element{
     }
     
     @Override
-    public void setImageLabel() throws MalformedURLException{
-        ImageIcon barrell=new ImageIcon(Barrell.class.getResource("/Images/barrell.png"));
-        this.getImageLabel().setIcon(barrell);
+    public void setLabel(){
+        ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/barrell.png"));
+        this.getImageLabel().setIcon(hero);
+        this.getPanel().add(this.getImageLabel());
+    }
+    
+    @Override
+    public Image setImage() throws MalformedURLException{
+        //ImageIcon barrell=new ImageIcon(Barrell.class.getResource("/Images/barrell.png"));
+        //this.getImageLabel().setIcon(barrell);
+        BufferedImage barrell = null;
+        try {
+            barrell=ImageIO.read(Barrell.class.getResource("/Images/barrell.png"));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //this.getPanel().add(this.getImageLabel());
+        return barrell;
     }
     
     @Override
