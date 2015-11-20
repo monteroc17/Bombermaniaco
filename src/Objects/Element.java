@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 public abstract class Element extends Thread{
     private int positionX,positionY;
     JLabel imageLabel;
+<<<<<<< HEAD
+=======
+    private JPanel panel;
+>>>>>>> origin/master
     private boolean hasPower,hasDoor,isBomb;
     private Image img;
     
@@ -62,6 +66,14 @@ public abstract class Element extends Thread{
         this.isBomb=isBomb;
     }
     
+    public boolean isBomb(){
+        return this.isBomb;
+    }
+    
+    public void setIsBomb(boolean isBomb){
+        this.isBomb=isBomb;
+    }
+    
     public void hasDoor(){
         this.hasDoor=true;
     }
@@ -80,13 +92,20 @@ public abstract class Element extends Thread{
     public void setLabel(String name){
         ImageIcon img = new ImageIcon(Hero.class.getResource("/Images/"+name));
         this.getImageLabel().setIcon(img);
+<<<<<<< HEAD
         instance.getPanel().add(this.getImageLabel());
+=======
+        this.getPanel().add(this.getImageLabel());
+>>>>>>> origin/master
     }
     
     public abstract boolean canBeStomped();
     public abstract boolean isIndestructible();
     public abstract Image setImage()throws MalformedURLException;
     public abstract void setLabel();
+<<<<<<< HEAD
     public abstract void die();
+=======
+>>>>>>> origin/master
     
 }

@@ -5,14 +5,21 @@
  */
 package Objects;
 
+<<<<<<< HEAD
 import Functionality.Constants;
 import static Functionality.Globals.instance;
 import Functionality.MP3;
+=======
+import static Functionality.Globals.instance;
+>>>>>>> origin/master
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
+<<<<<<< HEAD
 import java.net.URL;
+=======
+>>>>>>> origin/master
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -23,6 +30,7 @@ import javax.swing.ImageIcon;
  * @author Daniel-PC
  */
 public class Bomb extends Element {
+<<<<<<< HEAD
 
     private Hero hero;
     private int range;
@@ -37,6 +45,21 @@ public class Bomb extends Element {
         this.range = range;
     }
 
+=======
+    private Hero hero;
+    private int range;
+
+    public Bomb(int positionX, int positionY,Hero hero) {
+        super(positionX, positionY);
+        this.range = 1;
+        this.hero=hero;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+>>>>>>> origin/master
     @Override
     public boolean canBeStomped() {
         return true;
@@ -44,11 +67,17 @@ public class Bomb extends Element {
 
     @Override
     public void setLabel() {
+<<<<<<< HEAD
         URL url = Hero.class.getResource("/Images/bomb.png");
         ImageIcon hero = new ImageIcon(url);
         this.getImageLabel().setIcon(hero);
         instance.getPanel().add(this.getImageLabel());
 
+=======
+        ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/bomb.gif"));
+        this.getImageLabel().setIcon(hero);
+        this.getPanel().add(this.getImageLabel());
+>>>>>>> origin/master
     }
 
     @Override
@@ -58,7 +87,11 @@ public class Bomb extends Element {
         //this.getPanel().add(this.getImageLabel());
         BufferedImage bomb = null;
         try {
+<<<<<<< HEAD
             bomb = ImageIO.read(Barrell.class.getResource("/Images/bomb.png"));
+=======
+            bomb = ImageIO.read(Barrell.class.getResource("/Images/bomb.gif"));
+>>>>>>> origin/master
 
         } catch (IOException ex) {
             Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,6 +105,7 @@ public class Bomb extends Element {
     }
 
     public void blowup() throws InterruptedException {
+<<<<<<< HEAD
         MP3 explosion = new MP3("/Sounds/explosion.mp3");
         boolean up = false, down = false, left = false, right = false;
         instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setLabel("bomb.png");
@@ -178,6 +212,75 @@ public class Bomb extends Element {
 
             instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].setLabel("grass.png");
 
+=======
+        boolean up = false, down = false, left = false, right = false;
+
+        if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].isIndestructible()) {
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].getClass().equals("Hero")){
+                hero.die();
+            }
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].getClass().equals("Balloon")){
+                Balloon balloon=(Balloon)instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()];
+                balloon.die();
+            }
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].setLabel("explosion.gif");
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()] = new EmptySpace(this.getPositionX() - range, this.getPositionY());
+            right = true;
+        }
+
+        if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].isIndestructible()) {
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].getClass().equals("Hero")){
+                hero.die();
+            }
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].getClass().equals("Balloon")){
+                Balloon balloon=(Balloon)instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()];
+                balloon.die();
+            }
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].setLabel("explosion.gif");
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()] = new EmptySpace(this.getPositionX() - range, this.getPositionY());
+            left = true;
+        }
+
+        if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].isIndestructible()) {
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].getClass().equals("Hero")){
+                hero.die();
+            }
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].getClass().equals("Balloon")){
+                Balloon balloon=(Balloon)instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range];
+                balloon.die();
+            }
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].setLabel("explosion.gif");
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range] = new EmptySpace(this.getPositionX(), this.getPositionY() + range);
+            up = true;
+        }
+
+        if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].isIndestructible()) {
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].getClass().equals("Hero")){
+                hero.die();
+            }
+            if(instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].getClass().equals("Balloon")){
+                Balloon balloon=(Balloon)instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range];
+                balloon.die();
+            }
+            
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].setLabel("explosion.gif");
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range] = new EmptySpace(this.getPositionX(), this.getPositionY() - range);
+            down = true;
+        }
+        Bomb.sleep(1500);
+        instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()] = new EmptySpace(this.getPositionX(), this.getPositionY());
+        if (right == true) {
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].setLabel("grass.png");
+        }
+
+        if (left == true) {
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].setLabel("grass.png");
+>>>>>>> origin/master
         }
 
         if (up == true) {
@@ -189,9 +292,15 @@ public class Bomb extends Element {
 
             instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].setLabel("grass.png");
         }
+<<<<<<< HEAD
 
         instance.getFrame().repaint();
 
+=======
+        instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setLabel("grass.png");
+
+        this.interrupt();
+>>>>>>> origin/master
     }
 
     @Override
@@ -202,11 +311,15 @@ public class Bomb extends Element {
         } catch (InterruptedException ex) {
             Logger.getLogger(Bomb.class.getName()).log(Level.SEVERE, null, ex);
         }
+<<<<<<< HEAD
         //this.interrupt();
     }
 
     @Override
     public void die() {
         instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setLabel("grass.png");
+=======
+
+>>>>>>> origin/master
     }
 }

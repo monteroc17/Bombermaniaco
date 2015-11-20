@@ -10,7 +10,10 @@ import static Functionality.Globals.instance;
 import Functionality.MP3;
 import GUI.GameMedium;
 import GUI.MainMenu;
+<<<<<<< HEAD
 import GUI.SubmitNickname;
+=======
+>>>>>>> origin/master
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -48,11 +51,15 @@ public class Hero extends Element {
         this.event = event;
     }
 
-    public void move(Element[][] matrix, java.awt.event.KeyEvent event) {
+    public void move(Element[][] matrix, java.awt.event.KeyEvent event){
         Element evaluedElement;
         try {
             switch (event.getKeyCode()) {
+<<<<<<< HEAD
                 case KeyEvent.VK_DOWN:
+=======
+                case KeyEvent.VK_LEFT:
+>>>>>>> origin/master
                     if (!(this.getPositionX() < 0) || (this.getPositionX() > 19) || (this.getPositionY() < 0) || (this.getPositionY() > 19)) {
                         evaluedElement = matrix[this.getPositionX()][this.getPositionY() + 1];
                         if ((evaluedElement.getClass().getSimpleName().equals("Door"))) {
@@ -70,6 +77,7 @@ public class Hero extends Element {
                                     Constants.BOMB_RANGE += 1;
                                 }
                                 matrix[this.getPositionX()][this.getPositionY() + 1] = this;
+<<<<<<< HEAD
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + 1].getImageLabel().setLocation(this.getPositionX() * Constants.IMAGE_SIZE, (this.getPositionY() + 1) * Constants.IMAGE_SIZE);
                                 matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX() * Constants.IMAGE_SIZE, this.getPositionY() * Constants.IMAGE_SIZE);
@@ -77,12 +85,25 @@ public class Hero extends Element {
                                 this.setPosition(this.getPositionX(), this.getPositionY() + 1);
                                 instance.setHeroPositionX(this.getPositionX());
                                 instance.setHeroPositionY(this.getPositionY());
+=======
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + 1].getImageLabel().setLocation(this.getPositionX()*Constants.IMAGE_SIZE, (this.getPositionY()+1)*Constants.IMAGE_SIZE);
+                                matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX()*Constants.IMAGE_SIZE, this.getPositionY()*Constants.IMAGE_SIZE);
+                                instance.getFrame().repaint();
+                                this.setPosition(this.getPositionX(), this.getPositionY() + 1);
+                                
+                                //instance.getPanel().revalidate();
+>>>>>>> origin/master
                                 break;
                             }
                         }
                     }
 
+<<<<<<< HEAD
                 case KeyEvent.VK_UP:
+=======
+                case KeyEvent.VK_RIGHT:
+>>>>>>> origin/master
                     if (!(this.getPositionX() < 0) || (this.getPositionX() > 19) || (this.getPositionY() < 0) || (this.getPositionY() > 19)) {
                         evaluedElement = matrix[this.getPositionX()][this.getPositionY() - 1];
                         if ((evaluedElement.getClass().getSimpleName().equals("Door"))) {
@@ -100,6 +121,7 @@ public class Hero extends Element {
                                     Constants.BOMB_RANGE += 1;
                                 }
                                 matrix[this.getPositionX()][this.getPositionY() - 1] = this;
+<<<<<<< HEAD
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - 1].getImageLabel().setLocation(this.getPositionX() * Constants.IMAGE_SIZE, (this.getPositionY() - 1) * Constants.IMAGE_SIZE);
                                 matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX() * Constants.IMAGE_SIZE, this.getPositionY() * Constants.IMAGE_SIZE);
@@ -107,12 +129,25 @@ public class Hero extends Element {
                                 this.setPosition(this.getPositionX(), this.getPositionY() - 1);
                                 instance.setHeroPositionX(this.getPositionX());
                                 instance.setHeroPositionY(this.getPositionY());
+=======
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - 1].getImageLabel().setLocation(this.getPositionX()*Constants.IMAGE_SIZE, (this.getPositionY()-1)*Constants.IMAGE_SIZE);
+                                matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX()*Constants.IMAGE_SIZE, this.getPositionY()*Constants.IMAGE_SIZE);
+                                instance.getFrame().repaint();
+                                this.setPosition(this.getPositionX(), this.getPositionY() - 1);
+                                
+                                //instance.getPanel().revalidate();
+>>>>>>> origin/master
                                 break;
                             }
                         }
                     }
 
+<<<<<<< HEAD
                 case KeyEvent.VK_LEFT:
+=======
+                case KeyEvent.VK_DOWN:
+>>>>>>> origin/master
                     evaluedElement = matrix[this.getPositionX() - 1][this.getPositionY()];
                     if ((evaluedElement.getClass().getSimpleName().equals("Door"))) {
                         this.win();
@@ -130,6 +165,7 @@ public class Hero extends Element {
                                     Constants.BOMB_RANGE += 1;
                                 }
                                 matrix[this.getPositionX() - 1][this.getPositionY()] = this;
+<<<<<<< HEAD
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX() - 1][this.getPositionY()].getImageLabel().setLocation((this.getPositionX() - 1) * Constants.IMAGE_SIZE, this.getPositionY() * Constants.IMAGE_SIZE);
                                 matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX() * Constants.IMAGE_SIZE, this.getPositionY() * Constants.IMAGE_SIZE);
@@ -137,12 +173,24 @@ public class Hero extends Element {
                                 instance.setHeroPositionX(this.getPositionX());
                                 instance.setHeroPositionY(this.getPositionY());
 
+=======
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()-1][this.getPositionY()].getImageLabel().setLocation((this.getPositionX()-1)*Constants.IMAGE_SIZE, this.getPositionY()*Constants.IMAGE_SIZE);
+                                matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX()*Constants.IMAGE_SIZE, this.getPositionY()*Constants.IMAGE_SIZE);
+                                this.setPosition(this.getPositionX() - 1, this.getPositionY());
+                                
+                                //instance.getPanel().revalidate();
+>>>>>>> origin/master
                                 break;
                             }
                         }
                     }
 
+<<<<<<< HEAD
                 case KeyEvent.VK_RIGHT:
+=======
+                case KeyEvent.VK_UP:
+>>>>>>> origin/master
                     if (!(this.getPositionX() < 0) || (this.getPositionX() > 19) || (this.getPositionY() < 0) || (this.getPositionY() > 19)) {
                         evaluedElement = matrix[this.getPositionX() + 1][this.getPositionY()];
                         if ((evaluedElement.getClass().getSimpleName().equals("Door"))) {
@@ -160,6 +208,7 @@ public class Hero extends Element {
                                     Constants.BOMB_RANGE += 1;
                                 }
                                 matrix[this.getPositionX() + 1][this.getPositionY()] = this;
+<<<<<<< HEAD
                                 instance.getCurrentMatrix().getMatrix()[this.getPositionX() + 1][this.getPositionY()].getImageLabel().setLocation((this.getPositionX() + 1) * Constants.IMAGE_SIZE, this.getPositionY() * Constants.IMAGE_SIZE);
 
                                 matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
@@ -170,39 +219,70 @@ public class Hero extends Element {
                                 instance.setHeroPositionX(this.getPositionX());
                                 instance.setHeroPositionY(this.getPositionY());
 
+=======
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()+1][this.getPositionY()].getImageLabel().setLocation((this.getPositionX()+1)*Constants.IMAGE_SIZE, this.getPositionY()*Constants.IMAGE_SIZE);
+                                //if(!matrix[this.getPositionX()][this.getPositionY()].isBomb()==true)
+                                    matrix[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
+                                
+                                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].getImageLabel().setLocation(this.getPositionX()*Constants.IMAGE_SIZE, this.getPositionY()*Constants.IMAGE_SIZE);
+                                instance.getFrame().repaint();
+                                this.setPosition(this.getPositionX() + 1, this.getPositionY());
+                                
+                                //instance.getPanel().revalidate();
+>>>>>>> origin/master
                                 break;
                             }
                         }
                     }
                 case KeyEvent.VK_CONTROL:
                     placeBomb();
+<<<<<<< HEAD
 
+=======
+                    
+>>>>>>> origin/master
                 default:
                     break;
 
             }
+            
 
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
 
         }
     }
-
+    
     @Override
+<<<<<<< HEAD
     public void setLabel() {
         ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/bomberman.png"));
         this.getImageLabel().setIcon(hero);
 
+=======
+    public void setLabel(){
+        ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/bomberman.png"));
+        this.getImageLabel().setIcon(hero);
+        
+>>>>>>> origin/master
     }
 
     @Override
     public Image setImage() throws MalformedURLException {
         //ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/bomberman.png"));
         //this.getImageLabel().setIcon(hero);
+<<<<<<< HEAD
 
         BufferedImage hero = null;
         try {
             hero = ImageIO.read(Barrell.class.getResource("/Images/bomberman.png"));
 
+=======
+        
+        BufferedImage hero = null;
+        try {
+            hero=ImageIO.read(Barrell.class.getResource("/Images/barrell.png"));
+            
+>>>>>>> origin/master
         } catch (IOException ex) {
             Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -227,9 +307,17 @@ public class Hero extends Element {
         instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()] = new EmptySpace(0, 0);
         for (int row = 0; row < instance.getCurrentMatrix().getMatrix().length; row++) {
             for (int col = 0; col < instance.getCurrentMatrix().getMatrix().length; col++) {
+<<<<<<< HEAD
                 //if (instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Balloon")) {
                 instance.getCurrentMatrix().getMatrix()[row][col].interrupt();
                 // }
+=======
+                if (instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Balloon")) {
+                    instance.getCurrentMatrix().getMatrix()[row][col].interrupt();
+
+                }
+
+>>>>>>> origin/master
             }
         }
         MP3 lostMusic = new MP3("/Sounds/lost.mp3");
@@ -265,6 +353,7 @@ public class Hero extends Element {
 
     }
 
+<<<<<<< HEAD
     public void win() {
         instance.getMusic().close();
         MP3 win = new MP3("/Sounds/win.mp3");
@@ -287,6 +376,10 @@ public class Hero extends Element {
 
     public void placeBomb() {
         Bomb bomb = new Bomb(this.getPositionX(), this.getPositionY(), this);
+=======
+    public void placeBomb() {
+        Bomb bomb=new Bomb(this.getPositionX(), this.getPositionY(),this);
+>>>>>>> origin/master
         instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setLabel("bomb.gif");
         instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setIsBomb(true);
         bomb.start();

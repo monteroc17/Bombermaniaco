@@ -5,7 +5,10 @@
  */
 package Objects;
 
+<<<<<<< HEAD
 import static Functionality.Globals.instance;
+=======
+>>>>>>> origin/master
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -29,7 +32,27 @@ public class BarrierBlock extends Element{
         ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/block.png"));
         this.getImageLabel().setIcon(hero);
         this.getImageLabel().setIgnoreRepaint(true);
+<<<<<<< HEAD
         //instance.getPanel().add(this.getImageLabel());
+    }
+    
+    @Override
+    public Image setImage() throws MalformedURLException{
+        //ImageIcon barrier=new ImageIcon(BarrierBlock.class.getResource("/Images/block.png"));
+        //this.getImageLabel().setIcon(barrier);
+        //this.getPanel().add(this.getImageLabel());
+        BufferedImage barrier = null;
+        try {
+            barrier=ImageIO.read(Barrell.class.getResource("/Images/block.png"));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return barrier;
+=======
+        this.getPanel().add(this.getImageLabel());
+>>>>>>> origin/master
     }
     
     @Override

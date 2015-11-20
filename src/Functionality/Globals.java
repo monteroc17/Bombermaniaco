@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 public class Globals {
     public static Globals instance;
     private Matrix currentMatrix;
+<<<<<<< HEAD
     private int heroPositionX,heroPositionY,currentPlayerTime,difficulty;
     private MP3 music;
     private JFrame frame;
@@ -29,6 +30,14 @@ public class Globals {
     private Chronometer chrono;
     private String currentPlayerName;
     private ArrayList<Player> top5;
+=======
+    private int heroPositionX,heroPositionY;
+    private MP3 music;
+    private GameMedium frame;
+    private JPanel panel;
+    private GridBagConstraints constraints;
+    private MapPainter map;
+>>>>>>> origin/master
     
     
 
@@ -47,11 +56,15 @@ public class Globals {
             instance.constraints=new GridBagConstraints();
             instance.constraints.gridheight=50;
             instance.constraints.gridwidth=50;
+<<<<<<< HEAD
             instance.chrono=null;
             instance.currentPlayerName=null;
             instance.currentPlayerTime=0;
             instance.top5=new ArrayList<>();
             instance.difficulty=0;
+=======
+            instance.map=null;
+>>>>>>> origin/master
         }
         return instance;
     }
@@ -147,6 +160,35 @@ public class Globals {
         instance.panel = panel;
         instance.panel.setLayout(new GridBagLayout());
         
+    }
+
+    public MapPainter getMap() {
+        return map;
+    }
+
+    public void setMap(MapPainter map) {
+        this.map = map;
+    }
+    
+    
+    
+    public void paintFrame2() throws MalformedURLException{
+        for(int line=0;line<instance.currentMatrix.getMatrix().length;line++){
+            for(int column=0;column<instance.currentMatrix.getMatrix().length;column++){
+                //instance.currentMatrix.getMatrix()[line][column].setImage();
+                
+                instance.constraints.gridx=column*Constants.IMAGE_SIZE;
+                instance.constraints.gridy=line*Constants.IMAGE_SIZE;
+                int x=column*Constants.IMAGE_SIZE;
+                int y=line*Constants.IMAGE_SIZE;
+                instance.currentMatrix.getMatrix()[line][column].getImageLabel().setBounds(x, y, Constants.IMAGE_SIZE, Constants.IMAGE_SIZE);
+                //instance.currentMatrix.getMatrix()[line][column].getImageLabel().setBounds(x, y, 50, 50);
+                instance.frame.add(instance.currentMatrix.getMatrix()[line][column].getImageLabel());
+                
+                
+                
+            }
+        }
     }
     
     

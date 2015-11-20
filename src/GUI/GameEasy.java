@@ -160,6 +160,7 @@ public class GameEasy extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+<<<<<<< HEAD
         boolean placed = false;
         chrono.run();
         while (!placed) {
@@ -176,6 +177,25 @@ public class GameEasy extends javax.swing.JFrame {
                 //jLabel2.setText("Y: "+hero.getPositionY());
 
             }
+=======
+        
+        boolean placed=false;
+        
+        while(!placed){
+        int line=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
+        int column=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
+           if(instance.getCurrentMatrix().getMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")){
+               hero=new Hero(column, line,this);
+               instance.getCurrentMatrix().getMatrix()[line][column]=hero;
+               instance.setHeroPositionX(column);
+               instance.setHeroPositionY(line);
+               hero.start();
+               placed=true;
+               jLabel1.setText("X: "+hero.getPositionX());
+               jLabel2.setText("Y: "+hero.getPositionY());
+               jTextArea1.setText(instance.printMatrix());
+           }
+>>>>>>> origin/master
         }
         boolean finished = false;
         while (!finished) {
@@ -198,8 +218,18 @@ public class GameEasy extends javax.swing.JFrame {
             for (int row = 0; row < instance.getCurrentMatrix().getMatrix().length; row++) {
                 Barrell tempBarrell;
                 for (int col = 0; col < instance.getCurrentMatrix().getMatrix().length; col++) {
+<<<<<<< HEAD
                     if (instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")) {
                         tempBarrell = (Barrell) instance.getCurrentMatrix().getMatrix()[row][col];
+=======
+                    if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
+                        tempBarrell=(Barrell)instance.getCurrentMatrix().getMatrix()[row][col];
+                        try {//tries to get the image url
+                            tempBarrell.setImage();
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(GameEasy.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+>>>>>>> origin/master
                         tempBarrell.setHero(hero);
                         instance.getCurrentMatrix().getMatrix()[row][col].start();
 

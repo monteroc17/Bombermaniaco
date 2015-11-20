@@ -7,7 +7,10 @@ package Objects;
 
 import Functionality.Constants;
 import static Functionality.Globals.instance;
+<<<<<<< HEAD
 import Functionality.MP3;
+=======
+>>>>>>> origin/master
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -225,12 +228,18 @@ public class Barrell extends Element {
                     setPosition(getPositionX()- 1, getPositionY() );
                 }
             }
+<<<<<<< HEAD
             else{
                 
             }
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 
             }
+=======
+        }
+        instance.getPanel().revalidate();  
+            
+>>>>>>> origin/master
     }
     
     public void bestMove(int heroX, int heroY) {
@@ -254,6 +263,7 @@ public class Barrell extends Element {
     }
 
     @Override
+<<<<<<< HEAD
     public void setLabel() {
         ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/barrell.png"));
         this.getImageLabel().setIcon(hero);
@@ -262,12 +272,27 @@ public class Barrell extends Element {
 
     @Override
     public Image setImage() throws MalformedURLException {
+=======
+    public void setLabel(){
+        ImageIcon hero = new ImageIcon(Hero.class.getResource("/Images/barrell.png"));
+        this.getImageLabel().setIcon(hero);
+        this.getPanel().add(this.getImageLabel());
+    }
+    
+    @Override
+    public Image setImage() throws MalformedURLException{
+>>>>>>> origin/master
         //ImageIcon barrell=new ImageIcon(Barrell.class.getResource("/Images/barrell.png"));
         //this.getImageLabel().setIcon(barrell);
         BufferedImage barrell = null;
         try {
+<<<<<<< HEAD
             barrell = ImageIO.read(Barrell.class.getResource("/Images/barrell.png"));
 
+=======
+            barrell=ImageIO.read(Barrell.class.getResource("/Images/barrell.png"));
+            
+>>>>>>> origin/master
         } catch (IOException ex) {
             Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
         }

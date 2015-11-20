@@ -11,6 +11,9 @@ package Functionality;
  */
 public class Constants {
     public static final int IMAGE_SIZE=50;
+<<<<<<< HEAD
     public static int BOMB_RANGE=1; 
+=======
+>>>>>>> origin/master
     
 }

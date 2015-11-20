@@ -9,10 +9,22 @@ import Functionality.Bombermaniac;
 import Functionality.Chronometer;
 import static Functionality.Globals.instance;
 import Functionality.MP3;
+<<<<<<< HEAD
 import Objects.Balloon;
 import Objects.Barrell;
 import Objects.Hero;
 import javax.swing.JFrame;
+=======
+import Functionality.MapPainter;
+import Functionality.Music;
+import Functionality.Timer;
+import Objects.Balloon;
+import Objects.Barrell;
+import Objects.Hero;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+import static java.lang.Thread.State.RUNNABLE;
+>>>>>>> origin/master
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,19 +43,37 @@ public class GameMedium extends javax.swing.JFrame {
     MP3 mp3;
     public GameMedium() throws MalformedURLException {
         initComponents();
+<<<<<<< HEAD
         setResizable(false);
+=======
+        //setResizable(false);
+>>>>>>> origin/master
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(970, 790);
         
         
+<<<<<<< HEAD
         mp3=new MP3("/Sounds/hard.mp3");
+=======
+        //creates and plays the music
+        String path="E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\medium.mp3";
+        mp3=new MP3(path);
+>>>>>>> origin/master
         instance.setMusic(mp3);
         instance.getMusic().play();
         chrono=new Chronometer(timerlbl) {};
         instance.setChrono(chrono);
         
+<<<<<<< HEAD
         //MapPainter map=new MapPainter();
         
+=======
+        newTimer=new Timer(timerlbl);
+        newTimer.start();
+        
+        //MapPainter map=new MapPainter();
+        
+>>>>>>> origin/master
         //instance.setMap(map);
         instance.setPanel(jPanel1);
         instance.setFrame(this);
@@ -69,6 +99,10 @@ public class GameMedium extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
+=======
+        jButton1 = new javax.swing.JButton();
+>>>>>>> origin/master
         jLabel2 = new javax.swing.JLabel();
         timerlbl = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -77,6 +111,7 @@ public class GameMedium extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BOMBERMANIAC!");
         getContentPane().setLayout(null);
+<<<<<<< HEAD
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic Light", 1, 14)); // NOI18N
         jLabel2.setText("Time:");
@@ -101,6 +136,8 @@ public class GameMedium extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(130, 10, 600, 460);
+=======
+>>>>>>> origin/master
 
         jButton1.setText("Start");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -117,7 +154,35 @@ public class GameMedium extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
+<<<<<<< HEAD
         jButton1.setBounds(30, 180, 57, 23);
+=======
+        jButton1.setBounds(659, 455, 57, 23);
+
+        jLabel2.setFont(new java.awt.Font("Yu Gothic Light", 1, 14)); // NOI18N
+        jLabel2.setText("Time:");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(20, 450, 50, 20);
+
+        timerlbl.setFont(new java.awt.Font("Ravie", 1, 14)); // NOI18N
+        timerlbl.setText("jLabel3");
+        getContentPane().add(timerlbl);
+        timerlbl.setBounds(70, 450, 79, 20);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 720, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 430, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(10, 10, 720, 430);
+>>>>>>> origin/master
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,8 +244,11 @@ public class GameMedium extends javax.swing.JFrame {
             finished=true;
             
         }
+<<<<<<< HEAD
         instance.getFrame().repaint();
         
+=======
+>>>>>>> origin/master
         //jButton1.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
