@@ -5,63 +5,63 @@
  */
 package GUI;
 
-
 import Functionality.Bombermaniac;
 import static Functionality.Globals.instance;
 import Functionality.MP3;
 import Functionality.Music;
-import Functionality.Timer;
+import Functionality.Chronometer;
 import Objects.Balloon;
 import Objects.Barrell;
 import Objects.Element;
 import Objects.Hero;
 import java.awt.event.KeyEvent;
+import static java.lang.Thread.State.RUNNABLE;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.xml.bind.JAXBElement;
+
 /**
  *
  * @author Daniel-PC
  */
+
 public class GameEasy extends javax.swing.JFrame {
-    
-    
-    Timer newTimer;
+
+    Chronometer chrono;
+    int timerCount;
     Hero hero;
     Music music;
     Thread musicThread;
     MP3 mp3;
-    
+
     public GameEasy() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //The thread for the main music in the game
-        //music=new Music(this);
-        //musicThread=new Thread(music);
-        //musicThread.start();
-        
+
+        this.setSize(970, 790);
+
         //creates and plays the music
-        
-        mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\easy.mp3");
+        mp3 = new MP3("/Sounds/hard.mp3");
         instance.setMusic(mp3);
         instance.getMusic().play();
-        
-        
-        newTimer=new Timer(timerlbl);
-        newTimer.start();
-        
+        chrono = new Chronometer(timerlbl) {
+        };
+        instance.setChrono(chrono);
+        instance.setFrame(this);
+        //MapPainter map=new MapPainter();
+
+        //instance.setMap(map);
         try {
             instance.getCurrentMatrix().fill();
+            instance.paintFrame2();
         } catch (MalformedURLException ex) {
             Logger.getLogger(GameEasy.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        jTextArea1.setText(instance.printMatrix());
-        
-        
-        
+        jButton1.setLocation(0, 0);
+        timerlbl.setLocation(0, 10);
+
     }
 
     /**
@@ -73,12 +73,9 @@ public class GameEasy extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         timerlbl = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bombermaniac!--EASY");
@@ -96,6 +93,12 @@ public class GameEasy extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Yu Gothic Light", 1, 14)); // NOI18N
+        jLabel2.setText("Time:");
+
+        timerlbl.setFont(new java.awt.Font("Ravie", 1, 14)); // NOI18N
+        timerlbl.setText("000");
+
         jButton1.setText("Start");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,49 +109,37 @@ public class GameEasy extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButton1KeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jButton1KeyTyped(evt);
+            }
         });
-
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
-        timerlbl.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel2)
-                    .addComponent(timerlbl)
-                    .addComponent(jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(timerlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(616, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(66, 66, 66)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(72, 72, 72)
-                        .addComponent(timerlbl)
-                        .addGap(0, 234, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timerlbl))
+                .addContainerGap(405, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,94 +147,85 @@ public class GameEasy extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-        
+
     }//GEN-LAST:event_formKeyTyped
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        
-        
-        
+
+
     }//GEN-LAST:event_formKeyPressed
 
-    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-        
-            //hero.setEvent(evt);
-            hero.move(instance.getCurrentMatrix().getMatrix(), evt);
-            jTextArea1.setText(instance.printMatrix());
-            jLabel1.setText("X: "+hero.getPositionX());
-            jLabel2.setText("Y: "+hero.getPositionY());
-            
-            
-                
-        
-    }//GEN-LAST:event_jButton1KeyPressed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+    }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        boolean placed=false;
-        
-        while(!placed){
-        int line=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
-        int column=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
-           if(instance.getCurrentMatrix().getMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               hero=new Hero(column, line,this);
-               instance.getCurrentMatrix().getMatrix()[line][column]=hero;
-               instance.heroPositionX=column;
-               instance.heroPositionY=line;
-               hero.start();
-               placed=true;
-               jLabel1.setText("X: "+hero.getPositionX());
-               jLabel2.setText("Y: "+hero.getPositionY());
-               jTextArea1.setText(instance.printMatrix());
-           }
+        boolean placed = false;
+        chrono.run();
+        while (!placed) {
+            int line = Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
+            int column = Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
+            if (instance.getCurrentMatrix().getMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")) {
+                hero = new Hero(column, line, this);
+                instance.getCurrentMatrix().getMatrix()[line][column] = hero;
+                instance.setHeroPositionX(column);
+                instance.setHeroPositionY(line);
+                hero.start();
+                placed = true;
+                //jLabel1.setText("X: "+hero.getPositionX());
+                //jLabel2.setText("Y: "+hero.getPositionY());
+
+            }
         }
-        boolean finished=false;
-        while(!finished){
-        
-            /*
+        boolean finished = false;
+        while (!finished) {
+
             for (int row = 0; row < instance.getCurrentMatrix().getMatrix().length; row++) {
                 Balloon tempBalloon;
                 for (int col = 0; col < instance.getCurrentMatrix().getMatrix().length; col++) {
-                    if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
-                        tempBalloon=(Balloon)instance.getCurrentMatrix().getMatrix()[row][col];
-                        tempBalloon.setImage(jTextArea1);
+                    if (instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Balloon")) {
+                        tempBalloon = (Balloon) instance.getCurrentMatrix().getMatrix()[row][col];
                         tempBalloon.setHero(hero);
+                        if (instance.getCurrentMatrix().getMatrix()[row][col].getState() == RUNNABLE) {
+                            instance.getCurrentMatrix().getMatrix()[row][col].interrupt();
+                        }
                         instance.getCurrentMatrix().getMatrix()[row][col].start();
-                        System.err.println("Balloon State"+tempBalloon.getState().toString());
-
 
                     }
                 }
             }
-            */
+
             for (int row = 0; row < instance.getCurrentMatrix().getMatrix().length; row++) {
                 Barrell tempBarrell;
                 for (int col = 0; col < instance.getCurrentMatrix().getMatrix().length; col++) {
-                    if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
-                        tempBarrell=(Barrell)instance.getCurrentMatrix().getMatrix()[row][col];
-                        try {//tries to get the image url
-                            tempBarrell.setImageLabel();
-                        } catch (MalformedURLException ex) {
-                            Logger.getLogger(GameEasy.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    if (instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")) {
+                        tempBarrell = (Barrell) instance.getCurrentMatrix().getMatrix()[row][col];
                         tempBarrell.setHero(hero);
                         instance.getCurrentMatrix().getMatrix()[row][col].start();
-                        System.out.println("Barrel State"+tempBarrell.getState().toString());
 
                     }
                 }
             }
-            finished=true;
+            finished = true;
+
         }
-        
-        
-        
-        
+        instance.getFrame().repaint();
+
+        //jButton1.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
-    }//GEN-LAST:event_formWindowClosing
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        hero.move(instance.getCurrentMatrix().getMatrix(), evt);
+        try {
+            instance.paintFrame2();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(GameMedium.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1KeyPressed
+
+    private void jButton1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1KeyTyped
 
     /**
      * @param args the command line arguments
@@ -282,10 +264,7 @@ public class GameEasy extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel timerlbl;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,39 +5,208 @@
  */
 package Objects;
 
+import Functionality.Constants;
+import static Functionality.Globals.instance;
+import Functionality.MP3;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author Daniel-PC
  */
-public class Bomb extends Element{
+public class Bomb extends Element {
 
-    public Bomb(int positionX, int positionY) {
+    private Hero hero;
+    private int range;
+
+    public Bomb(int positionX, int positionY, Hero hero) {
         super(positionX, positionY);
+        this.range = Constants.BOMB_RANGE;
+        this.hero = hero;
     }
-    
-    
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
     @Override
-    public boolean canBeStomped(){
+    public boolean canBeStomped() {
         return true;
     }
-    
+
     @Override
-    public void setImageLabel() throws MalformedURLException{
-        ImageIcon bomb=new ImageIcon(Bomb.class.getResource("/Images/bomb.gif"));
-        this.getImageLabel().setIcon(bomb);
-        this.getPanel().add(this.getImageLabel());
+    public void setLabel() {
+        URL url = Hero.class.getResource("/Images/bomb.png");
+        ImageIcon hero = new ImageIcon(url);
+        this.getImageLabel().setIcon(hero);
+        instance.getPanel().add(this.getImageLabel());
+
     }
-    
+
     @Override
-    public boolean isIndestructible(){
+    public Image setImage() throws MalformedURLException {
+        //ImageIcon bomb=new ImageIcon(Bomb.class.getResource("/Images/bomb.gif"));
+        //this.getImageLabel().setIcon(bomb);
+        //this.getPanel().add(this.getImageLabel());
+        BufferedImage bomb = null;
+        try {
+            bomb = ImageIO.read(Barrell.class.getResource("/Images/bomb.png"));
+
+        } catch (IOException ex) {
+            Logger.getLogger(Barrell.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bomb;
+    }
+
+    @Override
+    public boolean isIndestructible() {
         return true;
     }
-    
-    public void blowup(){
-        
+
+    public void blowup() throws InterruptedException {
+        MP3 explosion = new MP3("/Sounds/explosion.mp3");
+        boolean up = false, down = false, left = false, right = false;
+        instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setLabel("bomb.png");
+        instance.getFrame().repaint();
+        if (instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].checkForDoor()) {
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()] = new Door(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else if (instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].checkForPower()) {
+            System.out.println("Power found");
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()] = new Power(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else {
+            if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].isIndestructible()) {
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()] = new Explosion(this.getPositionX() + range, this.getPositionY());
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].start();
+                right = true;
+            }
+        }
+
+        if (instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].checkForDoor()) {
+            System.out.println("Door found");
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()] = new Door(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+
+        } else if (instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].checkForPower()) {
+            System.out.println("Power found");
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()] = new Power(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else {
+            if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].isIndestructible()) {
+                if ((instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].getClass().equals("Hero"))
+                        || (instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].getClass().equals("Balloon"))
+                        || (instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].getClass().equals("Barrell"))) {
+                    instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].die();
+                }
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].setLabel("explosion.gif");
+                Bomb.sleep(500);
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()] = new EmptySpace(this.getPositionX() - range, this.getPositionY());
+                left = true;
+            }
+        }
+
+        if (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].checkForDoor()) {
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range] = new Door(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else if (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].checkForPower()) {
+            System.out.println("Power found");
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range] = new Power(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else {
+            if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].isIndestructible()) {
+                if ((instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].getClass().equals("Hero"))
+                        || (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].getClass().equals("Balloon"))
+                        || (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].getClass().equals("Barrell"))) {
+                    instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].die();
+                }
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].setLabel("explosion.gif");
+                Bomb.sleep(500);
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range] = new EmptySpace(this.getPositionX(), this.getPositionY() + range);
+                up = true;
+            }
+        }
+
+        if (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].checkForDoor()) {
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range] = new Door(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else if (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].checkForPower()) {
+            System.out.println("Power found");
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range] = new Power(this.getPositionX(), this.getPositionY());
+            instance.getFrame().repaint();
+            explosion.play();
+        } else {
+            if (!instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].isIndestructible()) {
+                if ((instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].getClass().equals("Hero"))
+                        || (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].getClass().equals("Balloon"))
+                        || (instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].getClass().equals("Barrell"))) {
+                    instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].die();
+                }
+
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].setLabel("explosion.gif");
+                Bomb.sleep(500);
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range] = new EmptySpace(this.getPositionX(), this.getPositionY() - range);
+                down = true;
+            }
+            explosion.play();
+            Bomb.sleep(1000);
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setIsBomb(false);
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()] = new EmptySpace(this.getPositionX(), this.getPositionY());
+            if (right == true) {
+                instance.getCurrentMatrix().getMatrix()[this.getPositionX() + range][this.getPositionY()].setLabel("grass.png");
+            }
+        }
+        //checks which places explode to repaint
+        if (left == true) {
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX() - range][this.getPositionY()].setLabel("grass.png");
+
+        }
+
+        if (up == true) {
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() + range].setLabel("grass.png");
+        }
+
+        if (down == true) {
+
+            instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY() - range].setLabel("grass.png");
+        }
+
+        instance.getFrame().repaint();
+
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Bomb is ticking");
+        try {
+            this.blowup();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Bomb.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //this.interrupt();
+    }
+
+    @Override
+    public void die() {
+        instance.getCurrentMatrix().getMatrix()[this.getPositionX()][this.getPositionY()].setLabel("grass.png");
     }
 }

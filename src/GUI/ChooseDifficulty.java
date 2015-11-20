@@ -9,9 +9,13 @@ import static Functionality.Globals.instance;
 import Functionality.MP3;
 import Functionality.Matrix;
 import Functionality.MatrixFactory;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -24,10 +28,20 @@ public class ChooseDifficulty extends javax.swing.JFrame {
     public ChooseDifficulty() {
         initComponents();
         
-        mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\difficulty.mp3");
+        mp3=new MP3("/Sounds/difficulty.mp3");
         mp3.play();
         
         factory=new MatrixFactory();
+        
+        try {
+            URL url=new URL("http://vectorlib.free.fr/BomberMan/jpg/bomberman.jpg");
+            ImageIcon image = new ImageIcon(url);
+            jLabel2.setIcon(image);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -44,6 +58,7 @@ public class ChooseDifficulty extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -96,29 +111,33 @@ public class ChooseDifficulty extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(76, 76, 76))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -140,9 +159,8 @@ public class ChooseDifficulty extends javax.swing.JFrame {
         
         Matrix currentMatrix=factory.MatrixCreator(1);
         instance.setCurrentMatrix(currentMatrix);
+        instance.setDifficulty(1);
         
-        //GameEasy newEasyGame=new GameEasy();
-        //newEasyGame.setVisible(true);
         GameMedium newMediumGame;
         try {
             newMediumGame = new GameMedium();
@@ -157,11 +175,11 @@ public class ChooseDifficulty extends javax.swing.JFrame {
         mp3.close();
         Matrix currentMatrix=factory.MatrixCreator(2);
         instance.setCurrentMatrix(currentMatrix);
-        
-        GameMedium newMediumGame;
+        instance.setDifficulty(2);
+        GameMedium newGame;
         try {
-            newMediumGame = new GameMedium();
-            newMediumGame.setVisible(true);
+            newGame = new GameMedium();
+            newGame.setVisible(true);
             this.dispose();
         } catch (MalformedURLException ex) {
             Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,11 +192,11 @@ public class ChooseDifficulty extends javax.swing.JFrame {
         mp3.close();
         Matrix currentMatrix=factory.MatrixCreator(3);
         instance.setCurrentMatrix(currentMatrix);
-        
-        GameMedium newMediumGame;
+        instance.setDifficulty(3);
+        GameMedium newGame;
         try {
-            newMediumGame = new GameMedium();
-            newMediumGame.setVisible(true);
+            newGame = new GameMedium();
+            newGame.setVisible(true);
             this.dispose();
         } catch (MalformedURLException ex) {
             Logger.getLogger(ChooseDifficulty.class.getName()).log(Level.SEVERE, null, ex);
@@ -238,5 +256,6 @@ public class ChooseDifficulty extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

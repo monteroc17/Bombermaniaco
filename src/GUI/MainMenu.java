@@ -7,6 +7,11 @@ package GUI;
 
 import static Functionality.Globals.instance;
 import Functionality.MP3;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -17,9 +22,19 @@ public class MainMenu extends javax.swing.JFrame {
     MP3 mp3;
     public MainMenu() {
         initComponents();
-        
-        mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\menu.mp3");
+        mp3=new MP3("/Sounds/menu.mp3");
+        //mp3=new MP3("E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\menu.mp3");
         mp3.play();
+        
+        try {
+            URL url=new URL("http://cdn3.dualshockers.com/wp-content/uploads/2015/10/bomberman-live1.jpg");
+            ImageIcon image = new ImageIcon(url);
+            jLabel2.setIcon(image);
+            setSize(jLabel2.getSize());
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }
 
@@ -36,6 +51,7 @@ public class MainMenu extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -46,8 +62,13 @@ public class MainMenu extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(null);
 
+        jLabel1.setFont(new java.awt.Font("Chiller", 3, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("Bombermaniac");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(280, 70, 169, 42);
 
         jButton1.setText("PLAY!");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -55,6 +76,8 @@ public class MainMenu extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(230, 150, 273, 23);
 
         jButton2.setText("TOP SCORES");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -62,6 +85,8 @@ public class MainMenu extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(230, 230, 273, 23);
 
         jButton3.setText("EXIT");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -69,36 +94,10 @@ public class MainMenu extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jLabel1)
-                .addContainerGap(157, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(65, 65, 65))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(73, 73, 73)
-                .addComponent(jButton1)
-                .addGap(72, 72, 72)
-                .addComponent(jButton2)
-                .addGap(76, 76, 76)
-                .addComponent(jButton3)
-                .addContainerGap(62, Short.MAX_VALUE))
-        );
+        getContentPane().add(jButton3);
+        jButton3.setBounds(230, 330, 273, 23);
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(0, 0, 720, 440);
 
         pack();
         setLocationRelativeTo(null);
@@ -124,7 +123,8 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        TopScores scores=new TopScores(this, true);
+        scores.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -167,5 +167,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,18 +6,13 @@
 package GUI;
 
 import Functionality.Bombermaniac;
+import Functionality.Chronometer;
 import static Functionality.Globals.instance;
 import Functionality.MP3;
-import Functionality.Music;
-import Functionality.Timer;
 import Objects.Balloon;
 import Objects.Barrell;
 import Objects.Hero;
-import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import static java.lang.Thread.State.RUNNABLE;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,31 +24,38 @@ import java.util.logging.Logger;
  */
 public class GameMedium extends javax.swing.JFrame {
 
-    Timer newTimer;
+    Chronometer chrono;
+    int timerCount;
     Hero hero;
-    Music music;
     Thread musicThread;
     MP3 mp3;
     public GameMedium() throws MalformedURLException {
         initComponents();
+        setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1280, 720);
+        this.setSize(970, 790);
         
-        //creates and plays the music
-        String path="E:\\DATOS\\TEC\\IV Semestre\\POO\\PROYECTO FINAL\\Bombermaniaco\\src\\Sounds\\medium.mp3";
-        mp3=new MP3(path);
+        
+        mp3=new MP3("/Sounds/hard.mp3");
         instance.setMusic(mp3);
         instance.getMusic().play();
+        chrono=new Chronometer(timerlbl) {};
+        instance.setChrono(chrono);
         
+        //MapPainter map=new MapPainter();
         
-        //newTimer=new Timer(timerlbl);
-        //newTimer.start();
-        
-        //GridBagConstraints constraints=new GridBagConstraints();
+        //instance.setMap(map);
         instance.setPanel(jPanel1);
+        instance.setFrame(this);
         instance.getCurrentMatrix().fill();
+        //map.setBounds(0, 6, 800, 600);
+        //map.repaint();
+        //System.out.println(map.getHeight()+"x"+map.getWidth());
         instance.paintFrame();
-        this.getContentPane().add(jPanel1,BorderLayout.CENTER);
+        //instance.getFrame().add(map);
+        //map.repaint();
+        
+        //this.getContentPane().add(jPanel1,BorderLayout.CENTER);
         
         
     }
@@ -67,11 +69,38 @@ public class GameMedium extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        timerlbl = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BOMBERMANIAC!");
+        getContentPane().setLayout(null);
+
+        jLabel2.setFont(new java.awt.Font("Yu Gothic Light", 1, 14)); // NOI18N
+        jLabel2.setText("Time:");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(20, 240, 50, 20);
+
+        timerlbl.setFont(new java.awt.Font("Ravie", 1, 14)); // NOI18N
+        timerlbl.setText("000");
+        getContentPane().add(timerlbl);
+        timerlbl.setBounds(70, 240, 50, 20);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 460, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(130, 10, 600, 460);
 
         jButton1.setText("Start");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -87,58 +116,23 @@ public class GameMedium extends javax.swing.JFrame {
                 jButton1KeyTyped(evt);
             }
         });
-
-        jPanel1.setSize(this.getMaximumSize());
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 403, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
-        );
+        getContentPane().add(jButton1);
+        jButton1.setBounds(30, 180, 57, 23);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean placed=false;
-        
+        chrono.run();
         while(!placed){
         int line=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
         int column=Bombermaniac.randomNumber(instance.getCurrentMatrix().getSize());
            if(instance.getCurrentMatrix().getMatrix()[line][column].getClass().getSimpleName().equals("EmptySpace")){
                hero=new Hero(column, line,this);
                instance.getCurrentMatrix().getMatrix()[line][column]=hero;
-               instance.heroPositionX=column;
-               instance.heroPositionY=line;
+               instance.setHeroPositionX(column);
+               instance.setHeroPositionY(line);
                hero.start();
                placed=true;
                //jLabel1.setText("X: "+hero.getPositionX());
@@ -156,11 +150,11 @@ public class GameMedium extends javax.swing.JFrame {
                     if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Balloon")){
                         tempBalloon=(Balloon)instance.getCurrentMatrix().getMatrix()[row][col];
                         tempBalloon.setHero(hero);
-                        if(instance.getCurrentMatrix().getMatrix()[row][col].getState()==RUNNABLE){
+                        if(instance.getCurrentMatrix().getMatrix()[row][col].isAlive()){
                             instance.getCurrentMatrix().getMatrix()[row][col].interrupt();
                         }
                         instance.getCurrentMatrix().getMatrix()[row][col].start();
-                        System.err.println("Balloon State"+tempBalloon.getState().toString());
+                        
 
 
                     }
@@ -173,14 +167,21 @@ public class GameMedium extends javax.swing.JFrame {
                     if(instance.getCurrentMatrix().getMatrix()[row][col].getClass().getSimpleName().equals("Barrell")){
                         tempBarrell=(Barrell)instance.getCurrentMatrix().getMatrix()[row][col];
                         tempBarrell.setHero(hero);
+                        if(instance.getCurrentMatrix().getMatrix()[row][col].isAlive()){
+                            instance.getCurrentMatrix().getMatrix()[row][col].interrupt();
+                        }
                         instance.getCurrentMatrix().getMatrix()[row][col].start();
-                        System.out.println("Barrel State"+tempBarrell.getState().toString());
+                        
 
                     }
                 }
             }
             finished=true;
+            
         }
+        instance.getFrame().repaint();
+        
+        //jButton1.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyTyped
@@ -188,12 +189,9 @@ public class GameMedium extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1KeyTyped
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        hero.move(instance.getCurrentMatrix().getMatrix(), evt);
         try {
-            hero.move(instance.getCurrentMatrix().getMatrix(), evt);
             instance.paintFrame();
-            
-            //jLabel1.setText("X: "+hero.getPositionX());
-            //jLabel2.setText("Y: "+hero.getPositionY());
         } catch (MalformedURLException ex) {
             Logger.getLogger(GameMedium.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -241,6 +239,8 @@ public class GameMedium extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel timerlbl;
     // End of variables declaration//GEN-END:variables
 }

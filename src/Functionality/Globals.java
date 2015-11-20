@@ -10,6 +10,8 @@ import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -19,11 +21,15 @@ import javax.swing.JPanel;
 public class Globals {
     public static Globals instance;
     private Matrix currentMatrix;
-    public int heroPositionX,heroPositionY;
-    MP3 music;
-    private GameMedium frame;
+    private int heroPositionX,heroPositionY,currentPlayerTime,difficulty;
+    private MP3 music;
+    private JFrame frame;
     private JPanel panel;
-    GridBagConstraints constraints;
+    private GridBagConstraints constraints;
+    private Chronometer chrono;
+    private String currentPlayerName;
+    private ArrayList<Player> top5;
+    
     
 
     private Globals() {
@@ -41,10 +47,73 @@ public class Globals {
             instance.constraints=new GridBagConstraints();
             instance.constraints.gridheight=50;
             instance.constraints.gridwidth=50;
+            instance.chrono=null;
+            instance.currentPlayerName=null;
+            instance.currentPlayerTime=0;
+            instance.top5=new ArrayList<>();
+            instance.difficulty=0;
         }
         return instance;
     }
 
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public int getCurrentPlayerTime() {
+        return currentPlayerTime;
+    }
+
+    public void setCurrentPlayerTime(int currentPlayerTime) {
+        this.currentPlayerTime = currentPlayerTime;
+    }
+
+    public String getCurrentPlayerName() {
+        return currentPlayerName;
+    }
+
+    public void setCurrentPlayerName(String currentPlayerName) {
+        this.currentPlayerName = currentPlayerName;
+    }
+
+    public ArrayList<Player> getTop5() {
+        return top5;
+    }
+
+    public void addScore(Player player) {
+        int size=this.top5.size();
+        if(this.top5.isEmpty()){
+            this.top5.add(player);
+        }
+        else if(this.top5.size()<4){
+            for(int i=0;i<this.top5.size();i++){
+                if(player.getTime()<this.top5.get(i).getTime()){
+                    this.top5.add(i, player);
+                    if(this.top5.size()>4){
+                        this.top5.remove(-1);
+                    }
+                    break;
+                }
+                else{
+                    this.top5.add(player);
+                    break;
+                }
+            }
+        }
+    }
+    
+    public Chronometer getChrono() {
+        return chrono;
+    }
+
+    public void setChrono(Chronometer chrono) {
+        this.chrono = chrono;
+    }
+    
     public void setMusic(MP3 music) {
         instance.music = music;
     }
@@ -61,12 +130,13 @@ public class Globals {
         instance.currentMatrix = currentMatrix;
     }
 
-    public GameMedium getFrame() {
+    public JFrame getFrame() {
         return instance.frame;
     }
 
-    public void setFrame(GameMedium frame) {
+    public void setFrame(JFrame frame) {
         instance.frame = frame;
+        instance.frame.setLayout(new GridBagLayout());
     }
 
     public JPanel getPanel() {
@@ -79,17 +149,41 @@ public class Globals {
         
     }
     
+    
+    
+    public void paintFrame2() throws MalformedURLException{
+        
+        for(int line=0;line<instance.currentMatrix.getMatrix().length;line++){
+            for(int column=0;column<instance.currentMatrix.getMatrix().length;column++){
+                instance.currentMatrix.getMatrix()[line][column].setLabel();
+                
+                instance.constraints.gridx=column*Constants.IMAGE_SIZE;
+                instance.constraints.gridy=line*Constants.IMAGE_SIZE;
+                int x=column*Constants.IMAGE_SIZE;
+                int y=line*Constants.IMAGE_SIZE;
+                instance.frame.add(instance.currentMatrix.getMatrix()[line][column].getImageLabel(), instance.constraints);
+                //instance.currentMatrix.getMatrix()[line][column].getImageLabel().setBounds(x, y, Constants.IMAGE_SIZE, Constants.IMAGE_SIZE);
+                //instance.currentMatrix.getMatrix()[line][column].getImageLabel().setBounds(x, y, 50, 50);
+                //instance.frame.add(instance.currentMatrix.getMatrix()[line][column].getImageLabel());
+                
+                
+                
+            }
+        }
+    }
+    
     public void paintFrame() throws MalformedURLException{
         try{
         instance.panel.removeAll();
+        
         for(int line=0;line<instance.currentMatrix.getMatrix().length;line++){
             
             for(int column=0;column<instance.currentMatrix.getMatrix().length;column++){
                 //instance.currentMatrix.getMatrix()[line][column].setPanel(instance.panel);
-                instance.currentMatrix.getMatrix()[line][column].setImageLabel();
+                instance.currentMatrix.getMatrix()[line][column].setLabel();
                 
-                instance.constraints.gridx=line*50;
-                instance.constraints.gridy=column*50;
+                instance.constraints.gridx=line*Constants.IMAGE_SIZE;
+                instance.constraints.gridy=column*Constants.IMAGE_SIZE;
                 instance.panel.add(instance.currentMatrix.getMatrix()[line][column].getImageLabel(),instance.constraints);
                 
                 
@@ -105,164 +199,21 @@ public class Globals {
         }
     }
     
-    /*
-    public void fillMediumMatrix(){
-        BarrierBlock barrier=new BarrierBlock(0,0);
-        for(int line=0;line<instance.mediumMatrix.length;line++){//se llena de espacios vacios
-            for(int column=0;column<instance.mediumMatrix.length;column++){
-                instance.mediumMatrix[line][column]=new EmptySpace(0, 0);
-            }
-        }
-        
-        for(int line=0;line<instance.mediumMatrix.length;line+=2){//fills with barriers
-            for(int column=1;column<instance.mediumMatrix.length;column+=2){
-                instance.mediumMatrix[line][column]=barrier;
-            }
-        }
-        
-        int i=0;
-       while(i<1){//inserts the block containig the door
-           int line=Bombermaniac.randomNumber(40);
-           int column=Bombermaniac.randomNumber(40);
-           if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               Block newBlock=new Block(0, 0);
-               newBlock.setHasDoor(true);
-               instance.mediumMatrix[line][column]=new Block(0,0);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<3){//fills the map with 3 blocks with powers
-           int line=Bombermaniac.randomNumber(40);
-           int column=Bombermaniac.randomNumber(40);
-           
-           if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               Block newBlock=new Block(0, 0);
-               newBlock.setHasPower(true);
-               instance.mediumMatrix[line][column]=new Block(0,0);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<196){
-           int line=Bombermaniac.randomNumber(40);
-           int column=Bombermaniac.randomNumber(40);
-           if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Block(0, 0);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<10){//10 randomly placed balloons
-           int line=Bombermaniac.randomNumber(40);
-           int column=Bombermaniac.randomNumber(40);
-           if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Balloon(column, line);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<8){//8 randomly placed barrels
-           int line=Bombermaniac.randomNumber(40);
-           int column=Bombermaniac.randomNumber(40);
-           if(instance.mediumMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.mediumMatrix[line][column]=new Barrell(column, line);
-               i++;
-           }
-       }
-
-    }
-
-    public Element[][] getMediumMatrix() {
-        return instance.mediumMatrix;
-    }
     
-    public void fillHardMatrix(){
-        BarrierBlock barrier=new BarrierBlock(0,0);
-        for(int line=0;line<instance.hardMatrix.length;line++){
-            for(int column=0;column<instance.hardMatrix.length;column++){
-                instance.hardMatrix[line][column]=new EmptySpace(0, 0);
-            }
-        }
-
-        
-        for(int line=0;line<instance.hardMatrix.length;line+=2){//fills with barriers
-            for(int column=1;column<instance.hardMatrix.length;column+=2){
-                instance.hardMatrix[line][column]=barrier;
-            }
-        }
-
-        int i=0;
-       while(i<1){
-           int line=Bombermaniac.randomNumber(60);
-           int column=Bombermaniac.randomNumber(60);
-           if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               Block newBlock=new Block(0, 0);
-               newBlock.setHasDoor(true);
-               instance.hardMatrix[line][column]=new Block(0,0);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<2){//fills the map with 2 blocks with powers
-           int line=Bombermaniac.randomNumber(60);
-           int column=Bombermaniac.randomNumber(60);
-           
-           if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               Block newBlock=new Block(0, 0);
-               newBlock.setHasPower(true);
-               instance.hardMatrix[line][column]=new Block(0,0);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<497){//fills the rest of the blocks
-           int line=Bombermaniac.randomNumber(60);
-           int column=Bombermaniac.randomNumber(60);
-           if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Block(0, 0);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<15){//15 randomly placed barrels
-           int line=Bombermaniac.randomNumber(60);
-           int column=Bombermaniac.randomNumber(60);
-           if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Balloon(column, line);
-               i++;
-           }
-       }
-
-       i=0;
-       while(i<12){//12 randomly placed barrels
-           int line=Bombermaniac.randomNumber(60);
-           int column=Bombermaniac.randomNumber(60);
-           if(instance.hardMatrix[line][column].getClass().getSimpleName().equals("EmptySpace")){
-               instance.hardMatrix[line][column]=new Barrell(column, line);
-               i++;
-           }
-       }
-       
-    }
-
-    public Element[][] getHardMatrix() {
-        return instance.hardMatrix;
-    }
-    */
     public int getHeroPositionX() {
         return instance.heroPositionX;
     }
 
     public int getHeroPositionY() {
         return instance.heroPositionY;
+    }
+
+    public void setHeroPositionX(int heroPositionX) {
+        this.heroPositionX = heroPositionX;
+    }
+
+    public void setHeroPositionY(int heroPositionY) {
+        this.heroPositionY = heroPositionY;
     }
     
     public String printMatrix(){
